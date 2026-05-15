@@ -84,22 +84,22 @@ OpenAI も Codex で同じことを報告しています：適切にハーネス
 **このコースは、その環境の構築方法を教えます。**
 
 ```text
-                    THE HARNESS PATTERN
-                    ====================
+                    ハーネスパターン
+                    ================
 
-    You --> give task --> Agent reads harness files --> Agent executes
-                                                        |
-                                              harness governs every step:
-                                              |
-                                              +--> Instructions: what to do, in what order
-                                              +--> Scope:       one feature at a time, no overreach
-                                              +--> State:       progress log, feature list, git history
-                                              +--> Verification: tests, lint, type-check, smoke runs
-                                              +--> Lifecycle:   init at start, clean state at end
-                                              |
-                                              v
-                                         Agent stops only when
-                                         verification passes
+    あなた --> タスクを与える --> エージェントがハーネスファイルを読む --> エージェントが実行
+                                                                      |
+                                                            ハーネスが全ステップを管理：
+                                                            |
+                                                            +--> 指示：何を、どの順序で行うか
+                                                            +--> スコープ：一度に一つの機能、過剰な範囲拡大なし
+                                                            +--> 状態：進捗ログ、機能リスト、git履歴
+                                                            +--> 検証：テスト、lint、型チェック、スモーク実行
+                                                            +--> ライフサイクル：開始時に初期化、終了時にクリーンな状態
+                                                            |
+                                                            v
+                                                       エージェントは検証が
+                                                       通過した時のみ停止
 ```
 
 ---
@@ -112,32 +112,32 @@ Harness Engineering は、モデルの周囲に完全な作業環境を構築し
 
 ```text
     ┌─────────────────────────────────────────────────────────────────┐
-    │                        THE HARNESS                              │
+    │                          ハーネス                                │
     │                                                                 │
     │   ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐ │
-    │   │ Instructions  │  │    State     │  │   Verification       │ │
+    │   │    指示       │  │     状態      │  │       検証           │ │
     │   │              │  │              │  │                      │ │
-    │   │ AGENTS.md    │  │ progress.md  │  │ tests + lint         │ │
-    │   │ CLAUDE.md    │  │ feature_list │  │ type-check           │ │
-    │   │ feature_list │  │ git log      │  │ smoke runs           │ │
-    │   │ docs/        │  │ session hand │  │ e2e pipeline         │ │
+    │   │ AGENTS.md    │  │ progress.md  │  │ テスト + lint        │ │
+    │   │ CLAUDE.md    │  │ feature_list │  │ 型チェック            │ │
+    │   │ feature_list │  │ git log      │  │ スモーク実行          │ │
+    │   │ docs/        │  │ セションハンドオフ│ │  e2eパイプライン      │ │
     │   └──────────────┘  └──────────────┘  └──────────────────────┘ │
     │                                                                 │
     │   ┌──────────────┐  ┌──────────────────────────────────────┐   │
-    │   │    Scope     │  │         Session Lifecycle             │   │
+    │   │   スコープ    │  │          セッションライフサイクル       │   │
     │   │              │  │                                      │   │
-    │   │ one feature  │  │ init.sh at start                     │   │
-    │   │ at a time   │  │ clean-state checklist at end          │   │
-    │   │ definition   │  │ handoff note for next session        │   │
-    │   │ of done      │  │ commit only when safe to resume      │   │
+    │   │ 一度に       │  │ 開始時にinit.shを実行                 │   │
+    │   │ 一つの機能   │  │ 終了時にクリーン状態チェックリスト      │   │
+    │   │ 完了の定義   │  │ 次セッションへのハンドオフノート        │   │
+    │   │              │  │ 再開安全な場合のみコミット              │   │
     │   └──────────────┘  └──────────────────────────────────────┘   │
     │                                                                 │
     └─────────────────────────────────────────────────────────────────┘
 
-    The MODEL decides what code to write.
-    The HARNESS governs when, where, and how it writes it.
-    The harness doesn't make the model smarter.
-    It makes the model's output reliable.
+    モデルは書くコードを決定する。
+    ハーネスはいつ、どこで、どう書くかを管理する。
+    ハーネスはモデルを賢くするわけではない。
+    モデルの出力を信頼性のあるものにする。
 ```
 
 各サブシステムには一つの役割があります：
@@ -157,24 +157,23 @@ Harness Engineering は、モデルの周囲に完全な作業環境を構築し
 現時点での答えは：ハーネスなしでは無理です。
 
 ```text
-    WITHOUT HARNESS                          WITH HARNESS
-    ==============                          ============
+    ハーネスなし                              ハーネスあり
+    ==========                              ==========
 
-    Session 1: agent writes code            Session 1: agent reads instructions
-              agent breaks tests                      agent runs init.sh
-              agent says "done"                       agent works on one feature
-              you fix it manually                     agent verifies before claiming done
-                                                       agent updates progress log
-    Session 2: agent starts fresh                    agent commits clean state
-              agent has no memory
-              of what happened before         Session 2: agent reads progress log
-              agent re-does work                       agent picks up exactly where it left off
-              or does something else entirely          agent continues the unfinished feature
-              you fix it again                         you review, not rescue
+    セッション1: エージェントがコードを書く      セッション1: エージェントが指示を読む
+                エージェントがテストを壊す                 エージェントがinit.shを実行
+                エージェントが「完了」と言う               エージェントが一つの機能に取り組む
+                あなたが手動で修正                        エージェントが完了宣言前に検証
+                                                         エージェントが進捗ログを更新
+    セッション2: エージェントがゼロから開始               エージェントがクリーンな状態でコミット
+                エージェントは前回の記憶がない
+                                         セッション2: エージェントが進捗ログを読む
+                エージェントが同じ作業をやり直す             エージェントが前回の続きから正確に再開
+                または全く別のことをする                   エージェントが未完了の機能を継続
+                あなたがまた修正                          あなたは確認する、修正するのではない
 
-    Result: you spend more time                  Result: agent does the work,
-            cleaning up than if you                      you verify the result
-            did it yourself
+    結果: 自分でやるよりも                        結果: エージェントが作業を行い、
+          修正に多くの時間を費やす                        あなたは結果を検証する
 ```
 
 このコースが本当に重視している問い：
@@ -205,7 +204,7 @@ Harness Engineering は、モデルの周囲に完全な作業環境を構築し
 アイデアはシンプルです：プロンプトを書く代わりに、何をすべきか、何が完了しているか、作業をどう検証するかを定義する構造化ファイルのセットをエージェントに与えます。これらのファイルはリポジトリ内に存在するため、すべてのセッションが同じ状態から始まります。
 
 ```text
-    YOUR PROJECT ROOT
+    あなたのプロジェクトルート
     ├── AGENTS.md              <-- エージェントの操作マニュアル
     ├── CLAUDE.md              <-- （代替、Claude Code を使用する場合）
     ├── init.sh                <-- install + verify + start を実行
@@ -224,28 +223,29 @@ Harness Engineering は、モデルの周囲に完全な作業環境を構築し
 
 ```text
     ┌─────────────────────────────────────────────────────┐
-    │               Knowledge Base Desktop App            │
+    │            ナレッジベースデスクトップアプリ            │
     │                                                     │
     │  ┌──────────────┐  ┌──────────────────────────────┐│
-    │  │ Document List │  │       Q&A Panel              ││
-    │  │              │  │                              ││
-    │  │ doc-001.md   │  │  Q: What is harness eng?    ││
-    │  │ doc-002.md   │  │  A: The environment built    ││
-    │  │ doc-003.md   │  │     around an agent model... ││
-    │  │ ...          │  │     [citation: doc-002.md]   ││
+    │  │  ドキュメント  │  │         Q&Aパネル             ││
+    │  │    リスト      │  │                              ││
+    │  │ doc-001.md   │  │  Q: ハーネスエンジニアリング   ││
+    │  │ doc-002.md   │  │     とは何か？                 ││
+    │  │ doc-003.md   │  │  A: エージェントモデルの       ││
+    │  │ ...          │  │     周囲に構築された環境...     ││
+    │  │              │  │     [引用元: doc-002.md]       ││
     │  └──────────────┘  └──────────────────────────────┘│
     │                                                     │
     │  ┌─────────────────────────────────────────────────┐│
-    │  │ Status Bar: 42 docs | 38 indexed | last sync 3m ││
+    │  │ ステータスバー: 42文書 | 38件インデックス済 | 最終同期 3分前││
     │  └─────────────────────────────────────────────────┘│
     └─────────────────────────────────────────────────────┘
 
-    Core features:
-    ├── Import local documents
-    ├── Manage a document library
-    ├── Process and index documents
-    ├── Run AI-powered Q&A over imported content
-    └── Return grounded answers with citations
+    コア機能：
+    ├── ローカルドキュメントのインポート
+    ├── ドキュメントライブラリの管理
+    ├── ドキュメントの処理とインデックス作成
+    ├── インポートしたコンテンツに対するAI搭載Q&Aの実行
+    └── 引用付きの根拠ある回答の返却
 ```
 
 このプロジェクトが選ばれたのは、実用的な価値、十分な現実世界の製品複雑さ、ハーネス改善の前後を観察するのに適した設定を組み合わせているからです。
@@ -259,47 +259,47 @@ Harness Engineering は、モデルの周囲に完全な作業環境を構築し
 このコースは順番に進めるように設計されています。各フェーズは前のフェーズの上に構築されます。
 
 ```text
-    Phase 1: SEE THE PROBLEM              Phase 2: STRUCTURE THE REPO
-    ========================              ==========================
+    フェーズ1: 問題を見る                      フェーズ2: リポジトリを構造化
+    =================================         =================================
 
-    L01  Strong models ≠ reliable         L03  Repository as single
-         execution                              source of truth
-    L02  What harness actually means
-                                       L04  Split instructions across
-         |                                   files, not one giant file
+    L01  強力なモデル ≠ 確実な実行             L03  リポジトリを唯一の
+                                              信頼できる情報源にする
+    L02  ハーネスが実際に意味するもの
+                                              L04  指示を複数ファイルに分割、
+         |                                    一つの巨大ファイルにしない
          v
-    P01  Prompt-only vs.                       |
-         rules-first comparison                v
-                                               P02  Agent-readable workspace
+    P01  プロンプトのみ vs.                          |
+         ルール優先の比較                             v
+                                                   P02  エージェント可読ワークスペース
 
 
-    Phase 3: CONNECT SESSIONS             Phase 4: FEEDBACK & SCOPE
-    ==========================           =========================
+    フェーズ3: セッションを接続               フェーズ4: フィードバックとスコープ
+    =================================         ====================================
 
-    L05  Keep context alive               L07  Draw clear task boundaries
-         across sessions
-                                       L08  Feature lists as harness
-    L06  Initialize before every               primitives
-         agent session
-                                               |
-         |                                     v
-         v                                     P04  Runtime feedback to
-    P03  Multi-session continuity                   correct agent behavior
+    L05  セッション間で                        L07  明確なタスク境界を引く
+         コンテキストを維持
+                                              L08  機能リストをハーネスの
+    L06  毎回のエージェント                          プリミティブとして使う
+         セッション前に初期化
+                                                   |
+         |                                         v
+         v                                         P04  エージェントの動作を修正する
+    P03  マルチセッション連続性                        ランタイムフィードバック
 
 
-    Phase 5: VERIFICATION                 Phase 6: PUT IT ALL TOGETHER
-    =====================                 ============================
+    フェーズ5: 検証                           フェーズ6: すべてを統合
+    =====================                     ============================
 
-    L09  Stop agents from                 L11  Make agent's runtime
-         declaring victory early               observable
+    L09  エージェントが早すぎる                 L11  エージェントのランタイムを
+         完了宣言をするのを防ぐ                      観測可能にする
 
-    L10  Full-pipeline run =              L12  Clean handoff at end of
-         real verification                      every session
+    L10  フルパイプライン実行 =                 L12  全セッションの終了時に
+         本当の検証                                  クリーンなハンドオフ
 
-         |                                     |
-         v                                     v
-    P05  Agent verifies its own work       P06  Build a complete harness
-                                               (capstone project)
+         |                                         |
+         v                                         v
+    P05  エージェントが自分の作業を検証          P06  完全なハーネスを構築
+                                                   （カプロジェクト）
 ```
 
 パートタイムで進める場合、各フェーズは約1週間です。より速く進めたい場合、フェーズ1〜3は長い週末で完了できます。
@@ -339,28 +339,28 @@ Harness Engineering は、モデルの周囲に完全な作業環境を構築し
 | [P06](../../docs/projects/project-06-runtime-observability-and-debugging/index.md) | ゼロから完全なハーネスを構築する（カプロジェクト） | フルハーネス：全メカニズム + オブザーバビリティ + アブレーションスタディ |
 
 ```text
-    PROJECT EVOLUTION
-    =================
+    プロジェクトの進化
+    ==================
 
-    P01  Prompt-only vs. rules-first       You see the problem
+    P01  プロンプトのみ vs. ルール優先       問題を目撃する
      |
      v
-    P02  Agent-readable workspace           You restructure the repo
+    P02  エージェント可読ワークスペース       リポジトリを再構築する
      |
      v
-    P03  Multi-session continuity           You connect sessions
+    P03  マルチセッション連続性              セッションを接続する
      |
      v
-    P04  Runtime feedback & scope           You add feedback loops
+    P04  ランタイムフィードバックとスコープ   フィードバックループを追加する
      |
      v
-    P05  Self-verification                  You make the agent check itself
+    P05  自己検証                           エージェントに自己チェックさせる
      |
      v
-    P06  Complete harness (capstone)        You build the full system
+    P06  完全なハーネス（カプロジェクト）    完全なシステムを構築する
 
-    Each project's solution becomes the next project's starter.
-    The app evolves. Your harness skills grow with it.
+    各プロジェクトのソリューションが次のプロジェクトのスターターになる。
+    アプリは進化する。あなたのハーネスキルも共に成長する。
 ```
 
 ### リソースライブラリ
@@ -385,44 +385,44 @@ Harness Engineering は、モデルの周囲に完全な作業環境を構築し
 このコースのコアアイデアの一つ：**エージェントのセッションは自由放任ではなく、構造化されたライフサイクルに従うべきです。** どのようなものか：
 
 ```text
-    AGENT SESSION LIFECYCLE
-    ======================
+    エージェントセッションライフサイクル
+    ====================================
 
     ┌──────────────────────────────────────────────────────────────────┐
-    │  START                                                          │
+    │  開始                                                            │
     │                                                                  │
-    │  1. Agent reads AGENTS.md / CLAUDE.md                           │
-    │  2. Agent runs init.sh (install, verify, health check)          │
-    │  3. Agent reads claude-progress.md (what happened last time)    │
-    │  4. Agent reads feature_list.json (what's done, what's next)    │
-    │  5. Agent checks git log (recent changes)                       │
+    │  1. エージェントがAGENTS.md / CLAUDE.mdを読む                    │
+    │  2. エージェントがinit.shを実行（インストール、検証、ヘルスチェック）│
+    │  3. エージェントがclaude-progress.mdを読む（前回の内容）          │
+    │  4. エージェントがfeature_list.jsonを読む（完了済み、次の作業）    │
+    │  5. エージェントがgit logを確認（最近の変更）                     │
     │                                                                  │
-    │  SELECT                                                          │
+    │  選択                                                            │
     │                                                                  │
-    │  6. Agent picks exactly ONE unfinished feature                   │
-    │  7. Agent works only on that feature                             │
+    │  6. エージェントは未完了の機能を正確に1つだけ選択                 │
+    │  7. エージェントはその機能のみに取り組む                          │
     │                                                                  │
-    │  EXECUTE                                                         │
+    │  実行                                                            │
     │                                                                  │
-    │  8. Agent implements the feature                                 │
-    │  9. Agent runs verification (tests, lint, type-check)           │
-    │  10. If verification fails: fix and re-run                      │
-    │  11. If verification passes: record evidence                    │
+    │  8. エージェントが機能を実装する                                  │
+    │  9. エージェントが検証を実行（テスト、lint、型チェック）         │
+    │  10. 検証失敗時：修正して再実行                                  │
+    │  11. 検証通過時：証拠を記録                                      │
     │                                                                  │
-    │  WRAP UP                                                         │
+    │  仕上げ                                                          │
     │                                                                  │
-    │  12. Agent updates claude-progress.md                           │
-    │  13. Agent updates feature_list.json                            │
-    │  14. Agent records what's still broken or unverified            │
-    │  15. Agent commits (only when safe to resume)                   │
-    │  16. Agent leaves clean restart path for next session           │
+    │  12. エージェントがclaude-progress.mdを更新                      │
+    │  13. エージェントがfeature_list.jsonを更新                       │
+    │  14. エージェントがまだ壊れている、または未検証の項目を記録      │
+    │  15. エージェントがコミット（再開安全な場合のみ）                 │
+    │  16. エージェントが次セッション用のクリーンな再起動パスを残す    │
     │                                                                  │
     └──────────────────────────────────────────────────────────────────┘
 
-    The harness governs every transition in this lifecycle.
-    The model decides what code to write at each step.
-    Without the harness, step 9 becomes "agent says it looks fine."
-    With the harness, step 9 is "tests pass, lint is clean, types check."
+    ハーネスはこのライフサイクルの全移行を管理する。
+    モデルは各ステップで書くコードを決定する。
+    ハーネスなしでは、ステップ9は「エージェントが大丈夫そうだと言う」になる。
+    ハーネスありでは、ステップ9は「テスト通過、lintクリーン、型チェックOK」になる。
 ```
 
 ---

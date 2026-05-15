@@ -84,22 +84,22 @@
 **هذه الدورة تعلّمك كيف تبني تلك البيئة.**
 
 ```text
-                    THE HARNESS PATTERN
-                    ====================
+                    نمط الحزام
+                    ===========
 
-    You --> give task --> Agent reads harness files --> Agent executes
-                                                        |
-                                              harness governs every step:
-                                              |
-                                              +--> Instructions: what to do, in what order
-                                              +--> Scope:       one feature at a time, no overreach
-                                              +--> State:       progress log, feature list, git history
-                                              +--> Verification: tests, lint, type-check, smoke runs
-                                              +--> Lifecycle:   init at start, clean state at end
-                                              |
-                                              v
-                                         Agent stops only when
-                                         verification passes
+    أنت --> تعطي مهمة --> الوكيل يقرأ ملفات الحزام --> الوكيل ينفذ
+                                                          |
+                                                الحزام يحكم كل خطوة:
+                                                |
+                                                +--> التعليمات: ماذا يفعل، بأي ترتيب
+                                                +--> النطاق:       ميزة واحدة في كل مرة، بلا تجاوز
+                                                +--> الحالة:       سجل التقدم، قائمة الميزات، سجل git
+                                                +--> التحقق:       اختبارات، تنسيق، فحص أنواع، تشغيل تجريبي
+                                                +--> دورة الحياة:   تهيئة في البداية، حالة نظيفة في النهاية
+                                                |
+                                                v
+                                           الوكيل يتوقف فقط عندما
+                                           يجتاز التحقق
 ```
 
 ---
@@ -112,32 +112,32 @@
 
 ```text
     ┌─────────────────────────────────────────────────────────────────┐
-    │                        THE HARNESS                              │
+    │                          الحزام                                  │
     │                                                                 │
     │   ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐ │
-    │   │ Instructions  │  │    State     │  │   Verification       │ │
+    │   │  التعليمات    │  │    الحالة     │  │      التحقق           │ │
     │   │              │  │              │  │                      │ │
-    │   │ AGENTS.md    │  │ progress.md  │  │ tests + lint         │ │
-    │   │ CLAUDE.md    │  │ feature_list │  │ type-check           │ │
-    │   │ feature_list │  │ git log      │  │ smoke runs           │ │
-    │   │ docs/        │  │ session hand │  │ e2e pipeline         │ │
+    │   │ AGENTS.md    │  │ progress.md  │  │ اختبارات + تنسيق      │ │
+    │   │ CLAUDE.md    │  │ feature_list │  │ فحص أنواع             │ │
+    │   │ feature_list │  │ سجل git      │  │ تشغيل تجريبي          │ │
+    │   │ docs/        │  │ تسليم جلسة   │  │ خط أنابيب شامل        │ │
     │   └──────────────┘  └──────────────┘  └──────────────────────┘ │
     │                                                                 │
     │   ┌──────────────┐  ┌──────────────────────────────────────┐   │
-    │   │    Scope     │  │         Session Lifecycle             │   │
+    │   │    النطاق     │  │       دورة حياة الجلسة                │   │
     │   │              │  │                                      │   │
-    │   │ one feature  │  │ init.sh at start                     │   │
-    │   │ at a time   │  │ clean-state checklist at end          │   │
-    │   │ definition   │  │ handoff note for next session        │   │
-    │   │ of done      │  │ commit only when safe to resume      │   │
+    │   │ ميزة واحدة   │  │ init.sh في البداية                   │   │
+    │   │ في كل مرة    │  │ قائمة حالة نظيفة في النهاية          │   │
+    │   │ تعريف        │  │ ملاحظة تسليم للجلسة التالية          │   │
+    │   │ الإتمام      │  │ التزام فقط عندما يكون آمناً للاستئناف │   │
     │   └──────────────┘  └──────────────────────────────────────┘   │
     │                                                                 │
     └─────────────────────────────────────────────────────────────────┘
 
-    The MODEL decides what code to write.
-    The HARNESS governs when, where, and how it writes it.
-    The harness doesn't make the model smarter.
-    It makes the model's output reliable.
+    النموذج يقرر أي كود يكتبه.
+    الحزام يحكم متى وأين وكيف يكتبه.
+    الحزام لا يجعل النموذج أذكى.
+    بل يجعل مخرجات النموذج موثوقة.
 ```
 
 لكل نظام فرعي وظيفة واحدة:
@@ -157,24 +157,24 @@
 حالياً، الإجابة هي: ليس بدون حزام.
 
 ```text
-    WITHOUT HARNESS                          WITH HARNESS
-    ==============                          ============
+    بدون حزام                                مع حزام
+    =========                                ======
 
-    Session 1: agent writes code            Session 1: agent reads instructions
-              agent breaks tests                      agent runs init.sh
-              agent says "done"                       agent works on one feature
-              you fix it manually                     agent verifies before claiming done
-                                                       agent updates progress log
-    Session 2: agent starts fresh                    agent commits clean state
-              agent has no memory
-              of what happened before         Session 2: agent reads progress log
-              agent re-does work                       agent picks up exactly where it left off
-              or does something else entirely          agent continues the unfinished feature
-              you fix it again                         you review, not rescue
+    الجلسة 1: الوكيل يكتب كوداً            الجلسة 1: الوكيل يقرأ التعليمات
+              الوكيل يكسر الاختبارات                  الوكيل يشغّل init.sh
+              الوكيل يقول "تم"                        الوكيل يعمل على ميزة واحدة
+              أنت تصلحه يدوياً                        الوكيل يتحقق قبل أن يدّعي الإتمام
+                                                       الوكيل يحدّث سجل التقدم
+    الجلسة 2: الوكيل يبدأ من الصفر                  الوكيل يلتزم حالة نظيفة
+              الوكيل ليس لديه ذاكرة
+              لما حدث سابقاً                  الجلسة 2: الوكيل يقرأ سجل التقدم
+              الوكيل يعيد العمل                       الوكيل يكمل من حيث توقف بالضبط
+              أو يقوم بشيء آخر تماماً                 الوكيل يواصل الميزة غير المكتملة
+              أنت تصلحه مرة أخرى                      أنت تراجع، لا تنقذ
 
-    Result: you spend more time                  Result: agent does the work,
-            cleaning up than if you                      you verify the result
-            did it yourself
+    النتيجة: أنت تقضي وقتاً أطول              النتيجة: الوكيل يقوم بالعمل،
+            في الإصلاح مما لو كنت                      وأنت تتحقق من النتيجة
+            فعلت ذلك بنفسك
 ```
 
 الأسئلة التي تهتم بها هذه الدورة فعلياً:
@@ -205,13 +205,13 @@
 الفكرة بسيطة: بدلاً من مجرد كتابة الموجهات، أعطِ وكيلك مجموعة من الملفات المنظمة التي تحدد ما يجب فعله، ما تم إنجازه، وكيفية التحقق من العمل. هذه الملفات تعيش داخل مستودعك، لذا تبدأ كل جلسة من نفس الحالة.
 
 ```text
-    YOUR PROJECT ROOT
-    ├── AGENTS.md              <-- the agent's operating manual
-    ├── CLAUDE.md              <-- (alternative, if using Claude Code)
-    ├── init.sh                <-- runs install + verify + start
-    ├── feature_list.json      <-- what features exist, which are done
-    ├── claude-progress.md     <-- what happened each session
-    └── src/                   <-- your actual code
+    الجذر الرئيسي لمشروعك
+    ├── AGENTS.md              <-- دليل تشغيل الوكيل
+    ├── CLAUDE.md              <-- (بديل، إذا كنت تستخدم Claude Code)
+    ├── init.sh                <-- يشغّل التثبيت + التحقق + البدء
+    ├── feature_list.json      <-- الميزات الموجودة، أيها مكتمل
+    ├── claude-progress.md     <-- ما حدث في كل جلسة
+    └── src/                   <-- الكود الفعلي الخاص بك
 ```
 
 احصل على القوالب الأولية من [مكتبة الموارد](https://walkinglabs.github.io/learn-harness-engineering/en/resources/) وأضفها إلى مشروعك. هذا كل شيء. أربعة ملفات، وستكون جلسات وكيلك أكثر استقراراً بشكل ملحوظ مقارنة بالاعتماد على الموجهات وحدها.
@@ -224,28 +224,28 @@
 
 ```text
     ┌─────────────────────────────────────────────────────┐
-    │               Knowledge Base Desktop App            │
+    │          تطبيق سطح مكتب لقاعدة المعرفة              │
     │                                                     │
     │  ┌──────────────┐  ┌──────────────────────────────┐│
-    │  │ Document List │  │       Q&A Panel              ││
+    │  │ قائمة المستندات│  │       لوحة الأسئلة والأجوبة   ││
     │  │              │  │                              ││
-    │  │ doc-001.md   │  │  Q: What is harness eng?    ││
-    │  │ doc-002.md   │  │  A: The environment built    ││
-    │  │ doc-003.md   │  │     around an agent model... ││
-    │  │ ...          │  │     [citation: doc-002.md]   ││
+    │  │ doc-001.md   │  │  س: ما هي هندسة الحزام؟     ││
+    │  │ doc-002.md   │  │  ج: البيئة المبنية            ││
+    │  │ doc-003.md   │  │     حول نموذج وكيل...         ││
+    │  │ ...          │  │     [استشهاد: doc-002.md]     ││
     │  └──────────────┘  └──────────────────────────────┘│
     │                                                     │
     │  ┌─────────────────────────────────────────────────┐│
-    │  │ Status Bar: 42 docs | 38 indexed | last sync 3m ││
+    │  │ شريط الحالة: 42 مستند | 38 مفهرس | آخر مزامنة 3د ││
     │  └─────────────────────────────────────────────────┘│
     └─────────────────────────────────────────────────────┘
 
-    Core features:
-    ├── Import local documents
-    ├── Manage a document library
-    ├── Process and index documents
-    ├── Run AI-powered Q&A over imported content
-    └── Return grounded answers with citations
+    الميزات الأساسية:
+    ├── استيراد المستندات المحلية
+    ├── إدارة مكتبة المستندات
+    ├── معالجة وفهرسة المستندات
+    ├── تشغيل أسئلة وأجوبة مدعومة بالذكاء الاصطناعي على المحتوى المستورد
+    └── إرجاع إجابات مبنية على أدلة مع استشهادات
 ```
 
 تم اختيار هذا المشروع لأنه يجمع بين قيمة عملية قوية، تعقيد كافٍ في المنتج الحقيقي، وبيئة جيدة لمراقبة تحسينات الحزام قبل وبعد.
@@ -259,47 +259,48 @@
 الدورة مصممة لتُنفذ بالترتيب. كل مرحلة تبني على سابقتها.
 
 ```text
-    Phase 1: SEE THE PROBLEM              Phase 2: STRUCTURE THE REPO
-    ========================              ==========================
+    المرحلة 1: شاهد المشكلة                 المرحلة 2: هيكل المستودع
+    =======================                 ========================
 
-    L01  Strong models ≠ reliable         L03  Repository as single
-         execution                              source of truth
-    L02  What harness actually means
-                                       L04  Split instructions across
-         |                                   files, not one giant file
+    L01  النماذج القوية ≠ تنفيذ             L03  المستودع كمصدر
+         موثوق                                     وحيد للحقيقة
+    L02  ماذا يعني الحزام فعلياً
+                                       L04  قسّم التعليمات عبر
+         |                                   ملفات، لا ملف ضخم واحد
          v
-    P01  Prompt-only vs.                       |
-         rules-first comparison                v
-                                               P02  Agent-readable workspace
+    P01  بالموجهات فقط مقابل                      |
+         القواعد أولاً                            v
+                                               P02  مساحة عمل قابلة للقراءة
+                                                    بواسطة الوكيل
 
 
-    Phase 3: CONNECT SESSIONS             Phase 4: FEEDBACK & SCOPE
-    ==========================           =========================
+    المرحلة 3: ربط الجلسات                 المرحلة 4: التغذية الراجعة والنطاق
+    ==========================           ==================================
 
-    L05  Keep context alive               L07  Draw clear task boundaries
-         across sessions
-                                       L08  Feature lists as harness
-    L06  Initialize before every               primitives
-         agent session
+    L05  أبقِ السياق حياً                  L07  ارسم حدود مهام واضحة
+         عبر الجلسات
+                                       L08  قوائم الميزات كعناصر
+    L06  التهيئة قبل كل                        أساسية للحزام
+         جلسة وكيل
                                                |
          |                                     v
-         v                                     P04  Runtime feedback to
-    P03  Multi-session continuity                   correct agent behavior
+         v                                     P04  تغذية راجعة وقت التشغيل
+    P03  استمرارية متعددة الجلسات              لتصحيح سلوك الوكيل
 
 
-    Phase 5: VERIFICATION                 Phase 6: PUT IT ALL TOGETHER
-    =====================                 ============================
+    المرحلة 5: التحقق                       المرحلة 6: اجمع كل شيء
+    =====================                   ========================
 
-    L09  Stop agents from                 L11  Make agent's runtime
-         declaring victory early               observable
+    L09  أوقف الوكلاء عن                    L11  اجعل بيئة تشغيل الوكيل
+         إعلان النصر مبكراً                      قابلة للملاحظة
 
-    L10  Full-pipeline run =              L12  Clean handoff at end of
-         real verification                      every session
+    L10  تشغيل خط أنابيب كامل =             L12  تسليم نظيف في نهاية
+         تحقق حقيقي                               كل جلسة
 
          |                                     |
          v                                     v
-    P05  Agent verifies its own work       P06  Build a complete harness
-                                               (capstone project)
+    P05  الوكيل يتحقق من عمله بنفسه          P06  ابنِ حزاماً كاملاً
+                                               (مشروع التخرج)
 ```
 
 كل مرحلة تستغرق حوالي أسبوع إذا كنت تعمل بدوام جزئي. إذا كنت تريد السرعة، يمكن إنجاز المراحل 1-3 في عطلة نهاية أسبوع طويلة.
@@ -339,28 +340,28 @@
 | [P06](../../docs/projects/project-06-runtime-observability-and-debugging/index.md) | ابنِ حزاماً كاملاً من الصفر (مشروع التخرج) | حزام كامل: جميع الآليات + قابلية الملاحظة + دراسة الاستئصال |
 
 ```text
-    PROJECT EVOLUTION
-    =================
+    تطور المشاريع
+    =============
 
-    P01  Prompt-only vs. rules-first       You see the problem
+    P01  بالموجهات فقط مقابل القواعد أولاً       أنت ترى المشكلة
      |
      v
-    P02  Agent-readable workspace           You restructure the repo
+    P02  مساحة عمل قابلة للقراءة بواسطة الوكيل  أنت تعيد هيكلة المستودع
      |
      v
-    P03  Multi-session continuity           You connect sessions
+    P03  استمرارية متعددة الجلسات                أنت تربط الجلسات
      |
      v
-    P04  Runtime feedback & scope           You add feedback loops
+    P04  تغذية راجعة وقت التشغيل والنطاق         أنت تضيف حلقات التغذية الراجعة
      |
      v
-    P05  Self-verification                  You make the agent check itself
+    P05  التحقق الذاتي                            أنت تجعل الوكيل يتحقق من نفسه
      |
      v
-    P06  Complete harness (capstone)        You build the full system
+    P06  حزام كامل (مشروع التخرج)                أنت تبني النظام الكامل
 
-    Each project's solution becomes the next project's starter.
-    The app evolves. Your harness skills grow with it.
+    حل كل مشروع يصبح بداية المشروع التالي.
+    التطبيق يتطور. مهاراتك في الحزام تنمو معه.
 ```
 
 ### مكتبة الموارد
@@ -385,44 +386,44 @@
 إحدى الأفكار الأساسية في هذه الدورة: **يجب أن تتبع جلسة الوكيل دورة حياة منظمة، وليست عشوائية.** إليك كيف تبدو:
 
 ```text
-    AGENT SESSION LIFECYCLE
-    ======================
+    دورة حياة جلسة الوكيل
+    =====================
 
     ┌──────────────────────────────────────────────────────────────────┐
-    │  START                                                          │
+    │  البداية                                                         │
     │                                                                  │
-    │  1. Agent reads AGENTS.md / CLAUDE.md                           │
-    │  2. Agent runs init.sh (install, verify, health check)          │
-    │  3. Agent reads claude-progress.md (what happened last time)    │
-    │  4. Agent reads feature_list.json (what's done, what's next)    │
-    │  5. Agent checks git log (recent changes)                       │
+    │  1. الوكيل يقرأ AGENTS.md / CLAUDE.md                           │
+    │  2. الوكيل يشغّل init.sh (تثبيت، تحقق، فحص صحي)                │
+    │  3. الوكيل يقرأ claude-progress.md (ما حدث في المرة السابقة)     │
+    │  4. الوكيل يقرأ feature_list.json (ما تم إنجازه، ما هو التالي)   │
+    │  5. الوكيل يفحص سجل git (التغييرات الأخيرة)                     │
     │                                                                  │
-    │  SELECT                                                          │
+    │  الاختيار                                                        │
     │                                                                  │
-    │  6. Agent picks exactly ONE unfinished feature                   │
-    │  7. Agent works only on that feature                             │
+    │  6. الوكيل يختار ميزة واحدة غير مكتملة بالضبط                    │
+    │  7. الوكيل يعمل على تلك الميزة فقط                               │
     │                                                                  │
-    │  EXECUTE                                                         │
+    │  التنفيذ                                                         │
     │                                                                  │
-    │  8. Agent implements the feature                                 │
-    │  9. Agent runs verification (tests, lint, type-check)           │
-    │  10. If verification fails: fix and re-run                      │
-    │  11. If verification passes: record evidence                    │
+    │  8. الوكيل ينفّذ الميزة                                          │
+    │  9. الوكيل يشغّل التحقق (اختبارات، تنسيق، فحص أنواع)             │
+    │  10. إذا فشل التحقق: إصلاح وإعادة التشغيل                        │
+    │  11. إذا نجح التحقق: تسجيل الدليل                                │
     │                                                                  │
-    │  WRAP UP                                                         │
+    │  الختام                                                          │
     │                                                                  │
-    │  12. Agent updates claude-progress.md                           │
-    │  13. Agent updates feature_list.json                            │
-    │  14. Agent records what's still broken or unverified            │
-    │  15. Agent commits (only when safe to resume)                   │
-    │  16. Agent leaves clean restart path for next session           │
+    │  12. الوكيل يحدّث claude-progress.md                             │
+    │  13. الوكيل يحدّث feature_list.json                              │
+    │  14. الوكيل يسجّل ما زال معطلاً أو غير مُتحقق منه                │
+    │  15. الوكيل يلتزم (فقط عندما يكون آمناً للاستئناف)               │
+    │  16. الوكيل يترك مسار إعادة تشغيل نظيف للجلسة التالية            │
     │                                                                  │
     └──────────────────────────────────────────────────────────────────┘
 
-    The harness governs every transition in this lifecycle.
-    The model decides what code to write at each step.
-    Without the harness, step 9 becomes "agent says it looks fine."
-    With the harness, step 9 is "tests pass, lint is clean, types check."
+    الحزام يحكم كل انتقال في دورة الحياة هذه.
+    النموذج يقرر أي كود يكتبه في كل خطوة.
+    بدون الحزام، الخطوة 9 تصبح "الوكيل يقول يبدو جيداً."
+    مع الحزام، الخطوة 9 هي "الاختبارات تجتاز، التنسيق نظيف، الأنواع صحيحة."
 ```
 
 ---

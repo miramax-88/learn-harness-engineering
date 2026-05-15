@@ -84,22 +84,22 @@ OpenAI Codex bilan xuddi shu haqida xabar berdi: yaxshi harnesslangan repozitori
 **Ushbu kurs sizga shu muhitni qanday qurishni oʻrgatadi.**
 
 ```text
-                    THE HARNESS PATTERN
-                    ====================
+                    HARNESS NAMUNASI
+                    ================
 
-    You --> give task --> Agent reads harness files --> Agent executes
+    Siz --> vazifa berasiz --> Agent harness fayllarini oʻqiydi --> Agent bajaradi
+                                                                      |
+                                                        harness har bir qadamni boshqaradi:
                                                         |
-                                              harness governs every step:
-                                              |
-                                              +--> Instructions: what to do, in what order
-                                              +--> Scope:       one feature at a time, no overreach
-                                              +--> State:       progress log, feature list, git history
-                                              +--> Verification: tests, lint, type-check, smoke runs
-                                              +--> Lifecycle:   init at start, clean state at end
-                                              |
-                                              v
-                                         Agent stops only when
-                                         verification passes
+                                                        +--> Koʻrsatmalar: nima qilish, qanday tartibda
+                                                        +--> Doira:       bir vaqtda bitta funksiya, haddan oshmaslik
+                                                        +--> Holat:       taraqqiyot jurnali, funksiya roʻyxati, git tarixi
+                                                        +--> Tekshiruv:   testlar, lint, tur-tekshirish, sinov ishga tushirish
+                                                        +--> Hayot sikli: boshida ishga tushirish, oxirida toza holat
+                                                        |
+                                                        v
+                                                   Agent faqat tekshiruv
+                                                   oʻtganda toʻxtaydi
 ```
 
 ---
@@ -112,32 +112,32 @@ Harnessʼning beshta quyi tizimi bor:
 
 ```text
     ┌─────────────────────────────────────────────────────────────────┐
-    │                        THE HARNESS                              │
+    │                          HARNESS                                │
     │                                                                 │
     │   ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐ │
-    │   │ Instructions  │  │    State     │  │   Verification       │ │
+    │   │ Koʻrsatmalar │  │    Holat     │  │     Tekshiruv        │ │
     │   │              │  │              │  │                      │ │
-    │   │ AGENTS.md    │  │ progress.md  │  │ tests + lint         │ │
-    │   │ CLAUDE.md    │  │ feature_list │  │ type-check           │ │
-    │   │ feature_list │  │ git log      │  │ smoke runs           │ │
-    │   │ docs/        │  │ session hand │  │ e2e pipeline         │ │
+    │   │ AGENTS.md    │  │ progress.md  │  │ testlar + lint       │ │
+    │   │ CLAUDE.md    │  │ feature_list │  │ tur-tekshirish       │ │
+    │   │ feature_list │  │ git log      │  │ sinov ishga tushirish│ │
+    │   │ docs/        │  │ sessiya uzat │  │ e2e pipeline         │ │
     │   └──────────────┘  └──────────────┘  └──────────────────────┘ │
     │                                                                 │
     │   ┌──────────────┐  ┌──────────────────────────────────────┐   │
-    │   │    Scope     │  │         Session Lifecycle             │   │
+    │   │    Doira     │  │       Sessiya hayot sikli             │   │
     │   │              │  │                                      │   │
-    │   │ one feature  │  │ init.sh at start                     │   │
-    │   │ at a time   │  │ clean-state checklist at end          │   │
-    │   │ definition   │  │ handoff note for next session        │   │
-    │   │ of done      │  │ commit only when safe to resume      │   │
+    │   │ bir vaqtda   │  │ boshida init.sh                      │   │
+    │   │ bitta funksiya│  │ oxirida toza-holat tekshiruv roʻyxati│   │
+    │   │ "tugadi"     │  │ keyingi sessiya uchun uzatish yozuvi │   │
+    │   │ taʼrifi      │  │ faqat xavfsiz davom ettirishda commit│   │
     │   └──────────────┘  └──────────────────────────────────────┘   │
     │                                                                 │
     └─────────────────────────────────────────────────────────────────┘
 
-    The MODEL decides what code to write.
-    The HARNESS governs when, where, and how it writes it.
-    The harness doesn't make the model smarter.
-    It makes the model's output reliable.
+    MODEL qanday kod yozishni hal qiladi.
+    HARNESS qachon, qayerda va qanday yozishni boshqaradi.
+    Harness modelni aqlliroq qilmaydi.
+    U model natijasini ishonchli qiladi.
 ```
 
 Har bir quyi tizimning oʻz vazifasi bor:
@@ -157,24 +157,24 @@ Savol "Model lar kod yozoladimi?" emas. Yozoladi. Haqiqiy savol: **Ular haqiqiy 
 Hozircha javob: harnessʼsiz — yoʻq.
 
 ```text
-    WITHOUT HARNESS                          WITH HARNESS
-    ==============                          ============
+    HARNESSʼSIZ                               HARNESS BILAN
+    ============                               ============
 
-    Session 1: agent writes code            Session 1: agent reads instructions
-              agent breaks tests                      agent runs init.sh
-              agent says "done"                       agent works on one feature
-              you fix it manually                     agent verifies before claiming done
-                                                       agent updates progress log
-    Session 2: agent starts fresh                    agent commits clean state
-              agent has no memory
-              of what happened before         Session 2: agent reads progress log
-              agent re-does work                       agent picks up exactly where it left off
-              or does something else entirely          agent continues the unfinished feature
-              you fix it again                         you review, not rescue
+    1-sessiya: agent kod yozadi              1-sessiya: agent koʻrsatmalarni oʻqiydi
+               agent testlarni buzadi                    agent init.sh ni ishga tushiradi
+               agent "tugadi" deydi                      agent bitta funksiya ustida ishlaydi
+               siz qoʻlbola tuzatasiz                    agent "tugadi" deyishdan oldin tekshiradi
+                                                           agent taraqqiyot jurnalini yangilaydi
+    2-sessiya: agent yangidan boshlaydi                agent toza holatni commit qiladi
+               agentning xotirasi yoʻq
+               oldin nima boʻlganini              2-sessiya: agent taraqqiyot jurnalini oʻqiydi
+               agent ishni qayta qiladi                   agent aynan toʻxtagan joydan davom etadi
+               yoki butunlay boshqa narsa qiladi          agent tugallanmagan funksiyani davom ettiradi
+               siz yana tuzatasiz                         siz koʻrib chiqasiz, qutqarmaysiz
 
-    Result: you spend more time                  Result: agent does the work,
-            cleaning up than if you                      you verify the result
-            did it yourself
+    Natija: siz oʻzingiz qilganingizdan       Natija: agent ishni bajaradi,
+            koʻra koʻproq vaqtni                      siz natijani tekshirasiz
+            tuzatishga sarflaysiz
 ```
 
 Bu kursni qiziqtiradigan haqiqiy savollar:
@@ -205,10 +205,10 @@ Foyda olish uchun 12 ta maʼruzani ham oʻqish shart emas. Agar siz allaqachon h
 Gʻoya oddiy: faqat promptʼlar yozish oʻrniga, agentingizga nima qilish kerak, nima allaqachon qilingan va ish qanday tekshirilishini belgilovchi strukturaviy fayllar toʻplamini bering. Bu fayllar repozitoriyangizda joylashgan, shunda har bir sessiya bir xil holatdan boshlanadi.
 
 ```text
-    YOUR PROJECT ROOT
+    LOYIHANGIZNING ILDIZ PAPKASI
     ├── AGENTS.md              <-- agentning ish qoʻllanmasi
     ├── CLAUDE.md              <-- (Claude Code ishlatganingizda alternativa)
-    ├── init.sh                <-- install + verify + start ni bajaradi
+    ├── init.sh                <-- oʻrnatish + tekshirish + ishga tushirishni bajaradi
     ├── feature_list.json      <-- qanday funksiyalar mavjud, qaysilari tugallangan
     ├── claude-progress.md     <-- har bir sessiyada nima boʻlgani
     └── src/                   <-- sizning haqiqiy kodingiz
@@ -224,28 +224,29 @@ Oltita kurs loyihasi bir xil mahsulot atrofida qurilgan: **Electron asosidagi sh
 
 ```text
     ┌─────────────────────────────────────────────────────┐
-    │               Knowledge Base Desktop App            │
+    │          Bilim bazasi desktop ilovasi               │
     │                                                     │
     │  ┌──────────────┐  ┌──────────────────────────────┐│
-    │  │ Document List │  │       Q&A Panel              ││
-    │  │              │  │                              ││
-    │  │ doc-001.md   │  │  Q: What is harness eng?    ││
-    │  │ doc-002.md   │  │  A: The environment built    ││
-    │  │ doc-003.md   │  │     around an agent model... ││
-    │  │ ...          │  │     [citation: doc-002.md]   ││
+    │  │ Hujjatlar    │  │       S&S paneli              ││
+    │  │ roʻyxati     │  │                              ││
+    │  │              │  │  S: Harness eng nima?        ││
+    │  │ doc-001.md   │  │  J: Agent modeli atrofida    ││
+    │  │ doc-002.md   │  │     qurilgan muhit...        ││
+    │  │ doc-003.md   │  │     [manba: doc-002.md]      ││
+    │  │ ...          │  │                              ││
     │  └──────────────┘  └──────────────────────────────┘│
     │                                                     │
     │  ┌─────────────────────────────────────────────────┐│
-    │  │ Status Bar: 42 docs | 38 indexed | last sync 3m ││
+    │  │ Holat paneli: 42 hujjat | 38 indekslangan | soʻnggi sinxronizatsiya 3d ││
     │  └─────────────────────────────────────────────────┘│
     └─────────────────────────────────────────────────────┘
 
-    Core features:
-    ├── Import local documents
-    ├── Manage a document library
-    ├── Process and index documents
-    ├── Run AI-powered Q&A over imported content
-    └── Return grounded answers with citations
+    Asosiy funksiyalar:
+    ├── Mahalliy hujjatlarni import qilish
+    ├── Hujjatlar kutubxonasini boshqarish
+    ├── Hujjatlarni qayta ishlash va indekslash
+    ├── Import qilingan kontent ustida KI asosidagi S&S oʻtkazish
+    └── Manbalar bilan asoslangan javoblarni qaytarish
 ```
 
 Bu loyiha shuning uchun tanlanganki, u yuqori amaliy foyda, yetarli haqiqiy mahsulot murakkabligi va harness yaxshilanishlarini kuzatish uchun yaxshi stsenariyani oʻzida birlashtiradi.
@@ -259,47 +260,47 @@ Har bir kurs loyihasi (boshlangʻich/yechim) ushbu Electron ilovasining mos rivo
 Kurs xronologik tartibda bajarish uchun moʻljallangan. Har bir bosqich oldingisiga asoslanadi.
 
 ```text
-    Phase 1: SEE THE PROBLEM              Phase 2: STRUCTURE THE REPO
-    ========================              ==========================
+    1-bosqich: MUAMMONI KOʻRISH             2-bosqich: REPONI TUZISH
+    ===========================             ========================
 
-    L01  Strong models ≠ reliable         L03  Repository as single
-         execution                              source of truth
-    L02  What harness actually means
-                                       L04  Split instructions across
-         |                                   files, not one giant file
+    L01  Kuchli modellar ≠ ishonchli       L03  Repo yagona haqiqat
+         bajarish                                 manbai sifatida
+    L02  Harness nima degani haqiqatan
+                                       L04  Koʻrsatmalarni bitta ulkan
+         |                                   faylga emas, bir nechta faylga boʻlish
          v
-    P01  Prompt-only vs.                       |
-         rules-first comparison                v
-                                               P02  Agent-readable workspace
+    P01  Faqat prompt vs.                       |
+         qoidalarga asoslangan solishtirish      v
+                                               P02  Agent oʻqiy oladigan ish muhiti
 
 
-    Phase 3: CONNECT SESSIONS             Phase 4: FEEDBACK & SCOPE
-    ==========================           =========================
+    3-bosqich: SESSIYALARNI BOGʻLASH        4-bosqich: FIKR-MULOHAZA VA DOIRA
+    ================================        ================================
 
-    L05  Keep context alive               L07  Draw clear task boundaries
-         across sessions
-                                       L08  Feature lists as harness
-    L06  Initialize before every               primitives
-         agent session
+    L05  Kontekstni sessiyalar             L07  Aniq vazifa chegaralarini chizish
+         orasida saqlash
+                                       L08  Funksiya roʻyxatlari harness
+    L06  Har bir agent sessiyasidan               primitivlari sifatida
+         oldin ishga tushirish
                                                |
          |                                     v
-         v                                     P04  Runtime feedback to
-    P03  Multi-session continuity                   correct agent behavior
+         v                                     P04  Agent xatti-harakatini
+    P03  Koʻp sessiyali uzluksizlik                 tuzatish uchun runtime fikr-mulohaza
 
 
-    Phase 5: VERIFICATION                 Phase 6: PUT IT ALL TOGETHER
-    =====================                 ============================
+    5-bosqich: TEKSHIRUV                   6-bosqich: HAMMASINI BIRGA JAMQILISH
+    ===================                    ===================================
 
-    L09  Stop agents from                 L11  Make agent's runtime
-         declaring victory early               observable
-
-    L10  Full-pipeline run =              L12  Clean handoff at end of
-         real verification                      every session
-
-         |                                     |
-         v                                     v
-    P05  Agent verifies its own work       P06  Build a complete harness
-                                               (capstone project)
+    L09  Agentlarga erta                   L11  Agent runtime'ini
+         muvaffaqiyat haqida xabar                kuzatiladigan qilish
+         berishiga toʻsqinlik qilish
+                                       L12  Har bir sessiya oxirida
+    L10  Toʻliq pipeline ishga                  toza uzatish
+         tushirish = haqiqiy tekshiruv
+                                               |
+         |                                     v
+         v                                     P06  Toʻliq harness qurish
+    P05  Agent oʻz ishini mustaqil tekshiradi       (yakuniy loyiha)
 ```
 
 Agar parallel oʻqisangiz, har bir bosqich taxminan bir hafta davom etadi. Agar tezroq borishni xohlasangiz, 1–3 bosqichlarni bitta uzun dam olish kunlarida tugatishingiz mumkin.
@@ -339,28 +340,28 @@ Agar parallel oʻqisangiz, har bir bosqich taxminan bir hafta davom etadi. Agar 
 | [P06](../../docs/projects/project-06-runtime-observability-and-debugging/index.md) | Toʻliq harnessʼni noldan qurish (yakuniy loyiha) | Toʻliq harness: barcha mexanizmlar + kuzatuvchanlik + ablyatsiya tadqiqoti |
 
 ```text
-    PROJECT EVOLUTION
-    =================
+    LOYIHA RIVOJLANISHI
+    ===================
 
-    P01  Prompt-only vs. rules-first       You see the problem
+    P01  Faqat prompt vs. qoidalarga asoslangan    Siz muammoni koʻrasiz
      |
      v
-    P02  Agent-readable workspace           You restructure the repo
+    P02  Agent oʻqiy oladigan ish muhiti            Siz repolarni qayta tuzasiz
      |
      v
-    P03  Multi-session continuity           You connect sessions
+    P03  Koʻp sessiyali uzluksizlik                 Siz sessiyalarni bogʻlaysiz
      |
      v
-    P04  Runtime feedback & scope           You add feedback loops
+    P04  Runtime fikr-mulohaza va doira             Siz fikr-mulohaza halqalarini qoʻshasiz
      |
      v
-    P05  Self-verification                  You make the agent check itself
+    P05  Oʻz-oʻzini tekshirish                      Siz agentni oʻz-oʻzini tekshirishga majburlaysiz
      |
      v
-    P06  Complete harness (capstone)        You build the full system
+    P06  Toʻliq harness (yakuniy loyiha)            Siz toʻliq tizimni qurasiz
 
-    Each project's solution becomes the next project's starter.
-    The app evolves. Your harness skills grow with it.
+    Har bir loyihaning yechimi keyingi loyihaning boshlangʻichiga aylanadi.
+    Ilova rivojlanadi. Harness koʻnikmalaringiz unga qarab oʻsadi.
 ```
 
 ### Andozalar kutubxonasi
@@ -385,44 +386,44 @@ Agar parallel oʻqisangiz, har bir bosqich taxminan bir hafta davom etadi. Agar 
 Ushbu kursning asosiy gʻoyalaridan biri: **Agent sessiyasi tuzilgan hayot sikliga amal qilishi kerak, emas xohlagancha ishlashiga.** Bu quyidagicha koʻrinadi:
 
 ```text
-    AGENT SESSION LIFECYCLE
-    ======================
+    AGENT SESSIYA HAYOT SIKLI
+    =========================
 
     ┌──────────────────────────────────────────────────────────────────┐
-    │  START                                                          │
+    │  BOSHLASH                                                       │
     │                                                                  │
-    │  1. Agent reads AGENTS.md / CLAUDE.md                           │
-    │  2. Agent runs init.sh (install, verify, health check)          │
-    │  3. Agent reads claude-progress.md (what happened last time)    │
-    │  4. Agent reads feature_list.json (what's done, what's next)    │
-    │  5. Agent checks git log (recent changes)                       │
+    │  1. Agent AGENTS.md / CLAUDE.md faylini oʻqiydi                 │
+    │  2. Agent init.sh ni ishga tushiradi (oʻrnatish, tekshirish, sogʻliqni nazorat)│
+    │  3. Agent claude-progress.md ni oʻqiydi (oxirgi safar nima boʻldi)│
+    │  4. Agent feature_list.json ni oʻqiydi (nima tugadi, keyin nima)│
+    │  5. Agent git log ni tekshiradi (soʻnggi oʻzgarishlar)          │
     │                                                                  │
-    │  SELECT                                                          │
+    │  TANLASH                                                         │
     │                                                                  │
-    │  6. Agent picks exactly ONE unfinished feature                   │
-    │  7. Agent works only on that feature                             │
+    │  6. Agent aynan BITTA tugallanmagan funksiyani tanlaydi          │
+    │  7. Agent faqat shu funksiya ustida ishlaydi                    │
     │                                                                  │
-    │  EXECUTE                                                         │
+    │  BAJARISH                                                        │
     │                                                                  │
-    │  8. Agent implements the feature                                 │
-    │  9. Agent runs verification (tests, lint, type-check)           │
-    │  10. If verification fails: fix and re-run                      │
-    │  11. If verification passes: record evidence                    │
+    │  8. Agent funksiyani amalga oshiradi                             │
+    │  9. Agent tekshiruvni ishga tushiradi (testlar, lint, tur-tekshirish)│
+    │  10. Agar tekshiruv oʻtmasa: tuzatish va qayta ishga tushirish  │
+    │  11. Agar tekshiruv oʻtsa: dalilni qayd etish                    │
     │                                                                  │
-    │  WRAP UP                                                         │
+    │  YAKUNLASH                                                       │
     │                                                                  │
-    │  12. Agent updates claude-progress.md                           │
-    │  13. Agent updates feature_list.json                            │
-    │  14. Agent records what's still broken or unverified            │
-    │  15. Agent commits (only when safe to resume)                   │
-    │  16. Agent leaves clean restart path for next session           │
+    │  12. Agent claude-progress.md ni yangilaydi                      │
+    │  13. Agent feature_list.json ni yangilaydi                       │
+    │  14. Agent hali buzilgan yoki tekshirilmagan narsalarni qayd etadi│
+    │  15. Agent commit qiladi (faqat xavfsiz davom ettirishda)        │
+    │  16. Agent keyingi sessiya uchun toza qayta boshlash yoʻlini qoldiradi│
     │                                                                  │
     └──────────────────────────────────────────────────────────────────┘
 
-    The harness governs every transition in this lifecycle.
-    The model decides what code to write at each step.
-    Without the harness, step 9 becomes "agent says it looks fine."
-    With the harness, step 9 is "tests pass, lint is clean, types check."
+    Harness ushbu hayot siklidagi har bir oʻtishni boshqaradi.
+    Model har bir qadamda qanday kod yozishni hal qiladi.
+    Harnessʼsiz 9-qadam "agent yaxshi koʻrinadi deydi" ga aylanadi.
+    Harness bilan 9-qadam "testlar oʻtdi, lint toza, turlar tekshirildi" boʻladi.
 ```
 
 ---

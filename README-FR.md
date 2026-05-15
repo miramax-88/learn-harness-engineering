@@ -84,22 +84,22 @@ OpenAI a rapporté la même chose avec Codex : dans un dépôt bien équipé d'u
 **Ce cours vous apprend à construire cet environnement.**
 
 ```text
-                    THE HARNESS PATTERN
-                    ====================
+                    LE MODÈLE HARNESS
+                    =================
 
-    You --> give task --> Agent reads harness files --> Agent executes
-                                                        |
-                                              harness governs every step:
-                                              |
-                                              +--> Instructions: what to do, in what order
-                                              +--> Scope:       one feature at a time, no overreach
-                                              +--> State:       progress log, feature list, git history
-                                              +--> Verification: tests, lint, type-check, smoke runs
-                                              +--> Lifecycle:   init at start, clean state at end
-                                              |
-                                              v
-                                         Agent stops only when
-                                         verification passes
+    Vous --> donnez une tâche --> L'agent lit les fichiers harness --> L'agent exécute
+                                                                      |
+                                                     Le harness gouverne chaque étape :
+                                                     |
+                                                     +--> Instructions : quoi faire, dans quel ordre
+                                                     +--> Portée :       une fonctionnalité à la fois, pas de surcharge
+                                                     +--> État :         journal de progression, liste de fonctionnalités, historique git
+                                                     +--> Vérification : tests, lint, vérification de types, essais de fumée
+                                                     +--> Cycle de vie : initialisation au démarrage, état propre à la fin
+                                                     |
+                                                     v
+                                                L'agent s'arrête uniquement quand
+                                                la vérification réussit
 ```
 
 ---
@@ -112,32 +112,32 @@ Un harness comporte cinq sous-systèmes :
 
 ```text
     ┌─────────────────────────────────────────────────────────────────┐
-    │                        THE HARNESS                              │
+    │                         LE HARNESS                              │
     │                                                                 │
     │   ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐ │
-    │   │ Instructions  │  │    State     │  │   Verification       │ │
+    │   │ Instructions  │  │    État      │  │   Vérification       │ │
     │   │              │  │              │  │                      │ │
     │   │ AGENTS.md    │  │ progress.md  │  │ tests + lint         │ │
-    │   │ CLAUDE.md    │  │ feature_list │  │ type-check           │ │
-    │   │ feature_list │  │ git log      │  │ smoke runs           │ │
-    │   │ docs/        │  │ session hand │  │ e2e pipeline         │ │
+    │   │ CLAUDE.md    │  │ feature_list │  │ vérif. de types      │ │
+    │   │ feature_list │  │ git log      │  │ essais de fumée      │ │
+    │   │ docs/        │  │ transfert    │  │ pipeline e2e         │ │
     │   └──────────────┘  └──────────────┘  └──────────────────────┘ │
     │                                                                 │
     │   ┌──────────────┐  ┌──────────────────────────────────────┐   │
-    │   │    Scope     │  │         Session Lifecycle             │   │
+    │   │   Portée     │  │       Cycle de vie de session         │   │
     │   │              │  │                                      │   │
-    │   │ one feature  │  │ init.sh at start                     │   │
-    │   │ at a time   │  │ clean-state checklist at end          │   │
-    │   │ definition   │  │ handoff note for next session        │   │
-    │   │ of done      │  │ commit only when safe to resume      │   │
+    │   │ une seule    │  │ init.sh au démarrage                 │   │
+    │   │ fonctionnalité│  │ liste de contrôle état propre à fin │   │
+    │   │ définition   │  │ note de transfert pour prochaine     │   │
+    │   │ de « terminé »│  │ commit uniquement si reprise sûre    │   │
     │   └──────────────┘  └──────────────────────────────────────┘   │
     │                                                                 │
     └─────────────────────────────────────────────────────────────────┘
 
-    The MODEL decides what code to write.
-    The HARNESS governs when, where, and how it writes it.
-    The harness doesn't make the model smarter.
-    It makes the model's output reliable.
+    Le MODÈLE décide quel code écrire.
+    Le HARNESS gouverne quand, où et comment il l'écrit.
+    Le harness ne rend pas le modèle plus intelligent.
+    Il rend la sortie du modèle fiable.
 ```
 
 Chaque sous-système a une seule responsabilité :
@@ -157,24 +157,24 @@ La question n'est pas « les modèles peuvent-ils écrire du code ? » Ils le pe
 Pour l'instant, la réponse est : pas sans un harness.
 
 ```text
-    WITHOUT HARNESS                          WITH HARNESS
-    ==============                          ============
+    SANS HARNESS                               AVEC HARNESS
+    ===========                                ============
 
-    Session 1: agent writes code            Session 1: agent reads instructions
-              agent breaks tests                      agent runs init.sh
-              agent says "done"                       agent works on one feature
-              you fix it manually                     agent verifies before claiming done
-                                                       agent updates progress log
-    Session 2: agent starts fresh                    agent commits clean state
-              agent has no memory
-              of what happened before         Session 2: agent reads progress log
-              agent re-does work                       agent picks up exactly where it left off
-              or does something else entirely          agent continues the unfinished feature
-              you fix it again                         you review, not rescue
+    Session 1 : l'agent écrit du code          Session 1 : l'agent lit les instructions
+                l'agent casse les tests                   l'agent exécute init.sh
+                l'agent dit « terminé »                   l'agent travaille sur une fonctionnalité
+                vous corrigez manuellement                l'agent vérifie avant de déclarer « terminé »
+                                                           l'agent met à jour le journal de progression
+    Session 2 : l'agent repart de zéro                 l'agent commit un état propre
+                l'agent n'a aucun souvenir
+                de ce qui s'est passé avant       Session 2 : l'agent lit le journal de progression
+                l'agent refait le travail                 l'agent reprend exactement là où il s'est arrêté
+                ou fait autre chose totalement            l'agent continue la fonctionnalité inachevée
+                vous corrigez encore                      vous révisez, vous ne sauvez pas
 
-    Result: you spend more time                  Result: agent does the work,
-            cleaning up than if you                      you verify the result
-            did it yourself
+    Résultat : vous passez plus de temps       Résultat : l'agent fait le travail,
+            à nettoyer qu si vous                     vous vérifiez le résultat
+            l'aviez fait vous-même
 ```
 
 Les questions auxquelles ce cours s'intéresse réellement :
@@ -205,13 +205,13 @@ Vous n'avez pas besoin de lire les 12 cours avant de commencer à en tirer profi
 L'idée est simple : au lieu de simplement écrire des prompts, donnez à votre agent un ensemble de fichiers structurés qui définissent ce qu'il faut faire, ce qui a été fait et comment vérifier le travail. Ces fichiers résident dans votre dépôt, donc chaque session démarre depuis le même état.
 
 ```text
-    YOUR PROJECT ROOT
-    ├── AGENTS.md              <-- the agent's operating manual
-    ├── CLAUDE.md              <-- (alternative, if using Claude Code)
-    ├── init.sh                <-- runs install + verify + start
-    ├── feature_list.json      <-- what features exist, which are done
-    ├── claude-progress.md     <-- what happened each session
-    └── src/                   <-- your actual code
+    RACINE DE VOTRE PROJET
+    ├── AGENTS.md              <-- le manuel de fonctionnement de l'agent
+    ├── CLAUDE.md              <-- (alternative, si vous utilisez Claude Code)
+    ├── init.sh                <-- exécute installation + vérification + démarrage
+    ├── feature_list.json      <-- quelles fonctionnalités existent, lesquelles sont terminées
+    ├── claude-progress.md     <-- ce qui s'est passé à chaque session
+    └── src/                   <-- votre code réel
 ```
 
 Récupérez les modèles de démarrage depuis la [Bibliothèque de Ressources](https://walkinglabs.github.io/learn-harness-engineering/en/resources/) et déposez-les dans votre projet. C'est tout. Quatre fichiers, et vos sessions d'agent seront déjà nettement plus stables qu'avec des prompts seuls.
@@ -224,28 +224,28 @@ Les six projets du cours gravitent autour du même produit : **une application d
 
 ```text
     ┌─────────────────────────────────────────────────────┐
-    │               Knowledge Base Desktop App            │
+    │         Application Bureau de Base de Connaissances │
     │                                                     │
     │  ┌──────────────┐  ┌──────────────────────────────┐│
-    │  │ Document List │  │       Q&A Panel              ││
-    │  │              │  │                              ││
-    │  │ doc-001.md   │  │  Q: What is harness eng?    ││
-    │  │ doc-002.md   │  │  A: The environment built    ││
-    │  │ doc-003.md   │  │     around an agent model... ││
-    │  │ ...          │  │     [citation: doc-002.md]   ││
+    │  │ Liste de     │  │     Panneau Q&R              ││
+    │  │ documents    │  │                              ││
+    │  │ doc-001.md   │  │  Q : Qu'est-ce que le harness││
+    │  │ doc-002.md   │  │  R : L'environnement construit││
+    │  │ doc-003.md   │  │     autour d'un modèle d'agent││
+    │  │ ...          │  │     [citation : doc-002.md]   ││
     │  └──────────────┘  └──────────────────────────────┘│
     │                                                     │
     │  ┌─────────────────────────────────────────────────┐│
-    │  │ Status Bar: 42 docs | 38 indexed | last sync 3m ││
+    │  │ Barre d'état : 42 docs | 38 indexés | sync 3m  ││
     │  └─────────────────────────────────────────────────┘│
     └─────────────────────────────────────────────────────┘
 
-    Core features:
-    ├── Import local documents
-    ├── Manage a document library
-    ├── Process and index documents
-    ├── Run AI-powered Q&A over imported content
-    └── Return grounded answers with citations
+    Fonctionnalités principales :
+    ├── Importer des documents locaux
+    ├── Gérer une bibliothèque de documents
+    ├── Traiter et indexer des documents
+    ├── Exécuter des Q&R alimentées par l'IA sur le contenu importé
+    └── Retourner des réponses fondées avec des citations
 ```
 
 Ce projet a été choisi car il combine une forte valeur pratique, une complexité produit suffisante pour le monde réel et un bon cadre pour observer les améliorations avant/après harness.
@@ -259,47 +259,47 @@ Le starter/solution de chaque projet du cours est une copie complète de cette a
 Le cours est conçu pour être suivi dans l'ordre. Chaque phase s'appuie sur la précédente.
 
 ```text
-    Phase 1: SEE THE PROBLEM              Phase 2: STRUCTURE THE REPO
-    ========================              ==========================
+    Phase 1 : VOIR LE PROBLÈME             Phase 2 : STRUCTURER LE DÉPÔT
+    ===========================            =============================
 
-    L01  Strong models ≠ reliable         L03  Repository as single
-         execution                              source of truth
-    L02  What harness actually means
-                                       L04  Split instructions across
-         |                                   files, not one giant file
-         v
-    P01  Prompt-only vs.                       |
-         rules-first comparison                v
-                                               P02  Agent-readable workspace
-
-
-    Phase 3: CONNECT SESSIONS             Phase 4: FEEDBACK & SCOPE
-    ==========================           =========================
-
-    L05  Keep context alive               L07  Draw clear task boundaries
-         across sessions
-                                       L08  Feature lists as harness
-    L06  Initialize before every               primitives
-         agent session
-                                               |
-         |                                     v
-         v                                     P04  Runtime feedback to
-    P03  Multi-session continuity                   correct agent behavior
+    L01  Des modèles performants ≠         L03  Le dépôt comme unique
+         une exécution fiable                    source de vérité
+    L02  Ce que signifie réellement
+         un harness                         L04  Répartir les instructions entre
+                                               plusieurs fichiers, pas un seul fichier géant
+         |
+         v                                        |
+    P01  Comparaison prompts seuls                v
+         vs. règles d'abord                  P02  Espace de travail lisible par l'agent
 
 
-    Phase 5: VERIFICATION                 Phase 6: PUT IT ALL TOGETHER
-    =====================                 ============================
+    Phase 3 : CONNECTER LES SESSIONS      Phase 4 : RETOUR & PORTÉE
+    =================================      =========================
 
-    L09  Stop agents from                 L11  Make agent's runtime
-         declaring victory early               observable
+    L05  Maintenir le contexte              L07  Définir des limites de tâches claires
+         entre les sessions
+                                           L08  Les listes de fonctionnalités comme
+    L06  Initialiser avant chaque                primitives du harness
+         session d'agent
+                                                |
+         |                                      v
+         v                                      P04  Retour d'exécution pour
+    P03  Continuité multi-sessions                   corriger le comportement de l'agent
 
-    L10  Full-pipeline run =              L12  Clean handoff at end of
-         real verification                      every session
 
-         |                                     |
-         v                                     v
-    P05  Agent verifies its own work       P06  Build a complete harness
-                                               (capstone project)
+    Phase 5 : VÉRIFICATION                Phase 6 : TOUT ASSEMBLER
+    ======================                ========================
+
+    L09  Empêcher les agents de           L11  Rendre l'exécution de l'agent
+         déclarer victoire trop tôt             observable
+
+    L10  Une exécution complète du        L12  Transfert propre à la fin de
+         pipeline = vraie vérification         chaque session
+
+         |                                      |
+         v                                      v
+    P05  L'agent vérifie son propre travail P06  Construire un harness complet
+                                                (projet final)
 ```
 
 Chaque phase prend environ une semaine si vous suivez le cours à temps partiel. Si vous souhaitez aller plus vite, les phases 1 à 3 peuvent être effectuées en un long week-end.
@@ -339,28 +339,29 @@ Chaque phase prend environ une semaine si vous suivez le cours à temps partiel.
 | [P06](../../docs/projects/project-06-runtime-observability-and-debugging/index.md) | Construire un harness complet à partir de zéro (projet final) | Harness complet : tous les mécanismes + observabilité + étude d'ablation |
 
 ```text
-    PROJECT EVOLUTION
-    =================
+    ÉVOLUTION DES PROJETS
+    =====================
 
-    P01  Prompt-only vs. rules-first       You see the problem
+    P01  Prompts seuls vs. règles d'abord   Vous voyez le problème
      |
      v
-    P02  Agent-readable workspace           You restructure the repo
+    P02  Espace de travail lisible          Vous restructurez le dépôt
+         par l'agent
      |
      v
-    P03  Multi-session continuity           You connect sessions
+    P03  Continuité multi-sessions          Vous connectez les sessions
      |
      v
-    P04  Runtime feedback & scope           You add feedback loops
+    P04  Retour d'exécution & portée        Vous ajoutez des boucles de retour
      |
      v
-    P05  Self-verification                  You make the agent check itself
+    P05  Auto-vérification                  Vous faites en sorte que l'agent se vérifie
      |
      v
-    P06  Complete harness (capstone)        You build the full system
+    P06  Harness complet (projet final)     Vous construisez le système complet
 
-    Each project's solution becomes the next project's starter.
-    The app evolves. Your harness skills grow with it.
+    La solution de chaque projet devient le starter du projet suivant.
+    L'application évolue. Vos compétences en harness grandissent avec elle.
 ```
 
 ### Bibliothèque de Ressources
@@ -385,44 +386,44 @@ Chaque phase prend environ une semaine si vous suivez le cours à temps partiel.
 L'une des idées centrales de ce cours : **la session de l'agent doit suivre un cycle de vie structuré, pas être laissée au hasard.** Voici à quoi cela ressemble :
 
 ```text
-    AGENT SESSION LIFECYCLE
-    ======================
+    CYCLE DE VIE DE LA SESSION DE L'AGENT
+    ======================================
 
     ┌──────────────────────────────────────────────────────────────────┐
-    │  START                                                          │
+    │  DÉMARRAGE                                                      │
     │                                                                  │
-    │  1. Agent reads AGENTS.md / CLAUDE.md                           │
-    │  2. Agent runs init.sh (install, verify, health check)          │
-    │  3. Agent reads claude-progress.md (what happened last time)    │
-    │  4. Agent reads feature_list.json (what's done, what's next)    │
-    │  5. Agent checks git log (recent changes)                       │
+    │  1. L'agent lit AGENTS.md / CLAUDE.md                           │
+    │  2. L'agent exécute init.sh (installation, vérif., contrôle)    │
+    │  3. L'agent lit claude-progress.md (ce qui s'est passé)         │
+    │  4. L'agent lit feature_list.json (terminé, à faire)            │
+    │  5. L'agent vérifie git log (changements récents)               │
     │                                                                  │
-    │  SELECT                                                          │
+    │  SÉLECTION                                                      │
     │                                                                  │
-    │  6. Agent picks exactly ONE unfinished feature                   │
-    │  7. Agent works only on that feature                             │
+    │  6. L'agent choisit exactement UNE fonctionnalité inachevée     │
+    │  7. L'agent travaille uniquement sur cette fonctionnalité       │
     │                                                                  │
-    │  EXECUTE                                                         │
+    │  EXÉCUTION                                                      │
     │                                                                  │
-    │  8. Agent implements the feature                                 │
-    │  9. Agent runs verification (tests, lint, type-check)           │
-    │  10. If verification fails: fix and re-run                      │
-    │  11. If verification passes: record evidence                    │
+    │  8. L'agent implémente la fonctionnalité                        │
+    │  9. L'agent exécute la vérification (tests, lint, types)        │
+    │  10. Si la vérification échoue : corriger et relancer           │
+    │  11. Si la vérification réussit : enregistrer la preuve         │
     │                                                                  │
-    │  WRAP UP                                                         │
+    │  CLÔTURE                                                        │
     │                                                                  │
-    │  12. Agent updates claude-progress.md                           │
-    │  13. Agent updates feature_list.json                            │
-    │  14. Agent records what's still broken or unverified            │
-    │  15. Agent commits (only when safe to resume)                   │
-    │  16. Agent leaves clean restart path for next session           │
+    │  12. L'agent met à jour claude-progress.md                      │
+    │  13. L'agent met à jour feature_list.json                       │
+    │  14. L'agent enregistre ce qui reste cassé ou non vérifié       │
+    │  15. L'agent commit (uniquement si la reprise est sûre)         │
+    │  16. L'agent laisse un chemin de redémarrage propre             │
     │                                                                  │
     └──────────────────────────────────────────────────────────────────┘
 
-    The harness governs every transition in this lifecycle.
-    The model decides what code to write at each step.
-    Without the harness, step 9 becomes "agent says it looks fine."
-    With the harness, step 9 is "tests pass, lint is clean, types check."
+    Le harness gouverne chaque transition dans ce cycle de vie.
+    Le modèle décide quel code écrire à chaque étape.
+    Sans le harness, l'étape 9 devient « l'agent dit que ça a l'air correct ».
+    Avec le harness, l'étape 9 est « les tests passent, le lint est propre, les types sont valides ».
 ```
 
 ---

@@ -15,361 +15,356 @@
 
 # Learn Harness Engineering
 
-> **这是一门项目制课程：系统学习如何通过环境、状态、验证与控制机制，让 AI 编程智能体（Coding Agents）更可靠地工作。**
+> **一门基于项目的课程，教你构建让 AI 编程代理可靠工作的环境、状态管理、验证和控制机制。**
 
-Learn Harness Engineering 是一门专注于 AI 编程智能体工程化落地的课程。本课程深度研究并总结了业内最前沿的 Harness Engineering（工具马具/脚手架工程）理论与实践，参考资料包括：
+Learn Harness Engineering 是一门专注于 AI 编程代理工程化的课程。我们深入研究和综合了业界最先进的 Harness Engineering 理论与实践。我们的核心参考资料包括：
 
 - [OpenAI: Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/)
 - [Anthropic: Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
 - [Anthropic: Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps)
 - [Awesome Harness Engineering](https://github.com/walkinglabs/awesome-harness-engineering)
 
-[**官方网站及多语言文档**](https://walkinglabs.github.io/learn-harness-engineering/) | [**English README**](./README.md)
-
-> **快速上手？** [`skills/harness-creator/`](./skills/) 技能可以帮你在几分钟内为自己的项目搭建一套生产级的 harness（AGENTS.md、功能清单、init.sh、验证工作流）。
+> **快速开始？** [`skills/harness-creator/`](../../skills/) 技能可以帮助你在几分钟内为自己的项目搭建生产级别的 Harness（AGENTS.md、功能列表、init.sh、验证工作流）。
 
 ---
 
 ## 目录
 
-- [✨ 界面速览](#-界面速览)
-- [Harness Engineering 到底是什么](#harness-engineering-到底是什么)
-- [快速开始：今天就能改善你的 agent](#快速开始今天就能改善你的-agent)
-- [贯穿项目：一个真实的应用](#贯穿项目一个真实的应用)
+- [视觉预览](#视觉预览)
+- [Harness Engineering 到底是什么意思](#harness-engineering-到底是什么意思)
+- [快速开始：今天就改善你的代理](#快速开始今天就改善你的代理)
+- [毕业项目：一个真实的应用](#毕业项目一个真实的应用)
 - [学习路径](#学习路径)
 - [课程大纲](#课程大纲)
-- [Skills](#skills)
+- [技能](#技能)
 - [其他课程](#其他课程)
 
 ---
 
-## ✨ 界面速览
+## 视觉预览
 
-### 🏠 课程主页
-> 包含完整的课程大纲与核心理念介绍，清晰的学习路径助你快速入门。
+### 课程主页
+> 全面的课程大纲和核心理念介绍，为你提供清晰的学习起点。
 
-![课程主页预览](./docs/public/screenshots/readme/zh-home.png)
+![课程主页预览](../../docs/public/screenshots/readme/en-home.png)
 
-### 📖 沉浸式讲义
-> 结合真实痛点与实战项目（如 Project 01）的深度解析，提供沉浸式的阅读与学习体验。
+### 沉浸式讲座
+> 深入剖析真实痛点，配合动手项目（如项目 01），带来沉浸式学习体验。
 
-![课程讲义预览](./docs/public/screenshots/readme/zh-lecture-01.png)
+![课程讲座预览](../../docs/public/screenshots/readme/en-lecture-01.png)
 
-### 🗂️ 开箱即用的资料库
-> 整理了可直接复用的中文模板与参考配置，专治 AI Agent 在多轮开发中的“做一半停下”、“上下文断裂”等疑难杂症。
+### 即用资源库
+> 专为解决多轮 AI 代理开发中的常见问题而设计的模板和参考配置，例如上下文丢失和过早完成任务。
 
-![扩展资料库预览](./docs/public/screenshots/readme/zh-resources.png)
+![资源库预览](../../docs/public/screenshots/readme/en-resources.png)
 
-## PDF 构建与 Release 流水线
+## PDF 课程手册
 
-仓库里现在已经补上了课程 PDF 的构建链路。
+本仓库包含课程内容的 PDF 构建流水线。
 
-- 本地执行 `npm run pdf:build`，会生成当前脚本配置的课程 PDF。
-- 输出目录是 `artifacts/pdfs/`。
-- 如果需要刷新 README 里的截图，执行 `npm run screenshots:readme`。
-- GitHub Actions 工作流 [`release-course-pdfs.yml`](./.github/workflows/release-course-pdfs.yml) 可以自动构建 PDF，并把产物上传到 GitHub Release。
+- 运行 `npm run pdf:build` 可在本地生成英文和中文 PDF。
+- 输出文件写入 `artifacts/pdfs/` 目录。
+- 如果你想刷新 README 预览图片，可运行 `npm run screenshots:readme`。
+- GitHub Actions 工作流 [`release-course-pdfs.yml`](../../.github/workflows/release-course-pdfs.yml) 可以构建 PDF 并发布到 GitHub Releases。
 
 ---
 
-## 模型很强，但 Harness 让它靠谱
+## 模型很聪明，Harness 让它可靠
 
-有一个很多人交过学费才明白的事实：**世界上最强的模型，如果没有一个合适的工作环境，依然会在真实工程任务中翻车。**
+大多数人都曾付出过惨痛代价才认识到一个残酷的事实：**世界上最强大的模型，如果你不为它构建合适的环境，它在真正的工程任务上依然会失败。**
 
-你多半见过这种情况。你给 Claude 或 GPT 一个任务，它看起来干得不错——读文件、写代码、很努力。然后出问题了。它跳过了一个步骤。它搞坏了一个测试。它说"完成了"但实际上什么都没跑通。你花在收拾烂摊子上的时间比自己做还多。
+你可能亲身经历过。你给 Claude 或 GPT 一个仓库中的任务。开始一切顺利——读文件、写代码、看起来很高效。然后出了问题。它跳过了一个步骤。它破坏了一个测试。它说"完成了"，但实际上什么都不能用。你花在清理上的时间比自己做还多。
 
-这不是模型的问题，这是 harness 的问题。
+这不是模型的问题。这是 Harness 的问题。
 
-证据很明确。Anthropic 做过一组对照实验：同一个模型（Opus 4.5），同一段提示词（"做一个 2D 复古游戏编辑器"）。没有 harness 的情况下，20 分钟花了 $9，结果游戏核心功能跑不起来。加上完整 harness（planner + generator + evaluator 三 agent 架构），6 小时花了 $200，做出来的游戏可以正常游玩。模型没换，换的是 harness。
+证据很明确。Anthropic 做了一个对照实验：同一个模型（Opus 4.5），同一个提示词（"构建一个 2D 复古游戏编辑器"）。没有 Harness 时，它在 20 分钟内花了 9 美元，产出了一个不能用的东西。有了完整的 Harness（规划器 + 生成器 + 评估器），它在 6 小时内花了 200 美元，构建了一个你真的能玩的游戏。模型没有变。变的是 Harness。
 
-OpenAI 用 Codex 也得出了同样结论：在一个 harness 搭得好的仓库里，同一个模型从"不可靠"变成"可靠"——不是"好了一点"，是质变。
+OpenAI 在 Codex 上也报告了同样的事情：在一个良好 Harness 的仓库中，同一个模型从"不可靠"变成了"可靠"。这不是边际提升——这是质变。
 
-**这门课教你怎么搭建那个环境。**
+**这门课程教你如何构建那个环境。**
 
 ```text
-                       HARNESS 模式
-                       ============
+                    HARNESS 模式
+                    =============
 
-    你 --> 给出任务 --> agent 读取 harness 文件 --> agent 开始执行
-                                                    |
-                                          harness 管控每一步：
-                                          |
-                                          +--> 指令：做什么、按什么顺序
-                                          +--> 范围：一次一个功能，不越界
-                                          +--> 状态：进度日志、功能清单、git 历史
-                                          +--> 验证：测试、lint、类型检查、冒烟测试
-                                          +--> 周期：开工时初始化，结束时留交接
-                                          |
-                                          v
-                                     agent 只在验证通过后
-                                     才会停下来
+    你 --> 给出任务 --> 代理读取 harness 文件 --> 代理执行
+                                                        |
+                                              harness 管控每一个步骤：
+                                              |
+                                              +--> 指令：做什么，按什么顺序
+                                              +--> 范围：一次一个功能，不越界
+                                              +--> 状态：进度日志、功能列表、git 历史
+                                              +--> 验证：测试、lint、类型检查、冒烟测试
+                                              +--> 生命周期：开始时初始化，结束时清理状态
+                                              |
+                                              v
+                                         代理只在验证通过时
+                                         才会停止
 ```
 
 ---
 
-## Harness Engineering 到底是什么
+## Harness Engineering 到底是什么意思
 
-Harness engineering 是围绕模型搭建一整套工作环境，让它产出可靠的结果。不只是写更好的提示词，而是设计模型运行所在的系统。
+Harness Engineering 是围绕模型构建一个完整的工作环境，使其产生可靠的结果。它不是关于写更好的提示词。它是关于设计模型运行其中的系统。
 
-一个 harness 包含五个子系统：
+一个 Harness 有五个子系统：
 
 ```text
     ┌─────────────────────────────────────────────────────────────────┐
-    │                          HARNESS                                │
+    │                        HARNESS 系统                              │
     │                                                                 │
     │   ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐ │
-    │   │    指令       │  │     状态     │  │       验证           │ │
+    │   │     指令      │  │     状态     │  │       验证           │ │
     │   │              │  │              │  │                      │ │
-    │   │ AGENTS.md    │  │ progress.md  │  │ tests + lint         │ │
-    │   │ CLAUDE.md    │  │ feature_list │  │ type-check           │ │
-    │   │ feature_list │  │ git log      │  │ smoke runs           │ │
-    │   │ docs/        │  │ session hand │  │ e2e pipeline         │ │
+    │   │ AGENTS.md    │  │ progress.md  │  │ 测试 + lint          │ │
+    │   │ CLAUDE.md    │  │ feature_list │  │ 类型检查             │ │
+    │   │ feature_list │  │ git log      │  │ 冒烟测试             │ │
+    │   │ docs/        │  │ 会话交接     │  │ 端到端流水线         │ │
     │   └──────────────┘  └──────────────┘  └──────────────────────┘ │
     │                                                                 │
     │   ┌──────────────┐  ┌──────────────────────────────────────┐   │
-    │   │     范围      │  │          会话生命周期                 │   │
+    │   │     范围      │  │         会话生命周期                  │   │
     │   │              │  │                                      │   │
-    │   │ 一次一个     │  │ 开工时跑 init.sh                    │   │
-    │   │ 功能         │  │ 结束时跑清理检查清单                │   │
-    │   │ 显式的完成   │  │ 给下次会话留交接笔记                │   │
-    │   │ 定义         │  │ 只在可以安全恢复时才 commit         │   │
+    │   │ 一次一个功能  │  │ 开始时运行 init.sh                   │   │
+    │   │ 明确完成的    │  │ 结束时执行清理检查清单               │   │
+    │   │ 定义          │  │ 为下一次会话留下交接说明             │   │
+    │   │              │  │ 只在安全可恢复时才提交               │   │
     │   └──────────────┘  └──────────────────────────────────────┘   │
     │                                                                 │
     └─────────────────────────────────────────────────────────────────┘
 
     模型决定写什么代码。
-    Harness 管控什么时候写、在哪里写、怎么写。
-    Harness 不会让模型变聪明。
-    它让模型的产出变可靠。
+    HARNESS 管控何时、何地以及如何写。
+    Harness 不会让模型更聪明。
+    它让模型的输出更可靠。
 ```
 
 每个子系统各司其职：
 
-- **指令** — 告诉 agent 做什么、按什么顺序、开工前先读什么。不是一个巨大的文件，而是渐进式展开的结构，agent 按需导航。
-- **状态** — 跟踪做了什么、正在做什么、下一步是什么。持久化到磁盘，下次会话从上次停下的地方继续。
-- **验证** — 只有通过的测试套件才算数。agent 不能没有可运行的证据就说"做完了"。
-- **范围** — 约束 agent 一次只做一个功能。不多做，不少做，不偷偷改功能清单掩盖未完成的工作。
-- **会话生命周期** — 开始时初始化，结束时清理，给下次会话留一条干净的重启路径。
+- **指令**——告诉代理做什么、按什么顺序、开始前读什么。不是一个巨大的文件，而是一个渐进式披露结构，代理按需导航。
+- **状态**——追踪已完成的工作、正在进行的工作和下一步。持久化到磁盘，使下一次会话可以准确地从上次离开的地方继续。
+- **验证**——只有通过的测试套件才算数。代理不能在没有可运行证据的情况下宣布完成。
+- **范围**——将代理限制在一次只做一个功能。不越界。不同时做三个半成品。不重写功能列表来掩盖未完成的工作。
+- **会话生命周期**——开始时初始化。结束时清理。为下一次会话留下干净的重启路径。
 
 ---
 
-## 为什么要有这门课
+## 为什么会有这门课程
 
-问题不是"模型能不能写代码"。能写。问题是：**能不能在真实的仓库里，跨越多次会话，不需要人一直盯着，就可靠地完成真实的工程任务？**
+问题不是"模型能不能写代码？"它们能。问题是：**它们能否在没有持续人工监督的情况下，在真实的仓库中、跨多个会话、可靠地完成真正的工程任务？**
 
-现在的答案是：没有 harness 就不行。
+目前，答案是：没有 Harness 就不行。
 
 ```text
-    没有 HARNESS                            有 HARNESS
-    ==============                          ===========
+    没有 HARNESS                           有 HARNESS
+    ==============                         ===========
 
-    会话 1: agent 写代码                     会话 1: agent 读指令
-            agent 搞坏测试                           agent 跑 init.sh
-            agent 说"做完了"                         agent 一次只做一个功能
-            你手动修复                                agent 验证后才说完成
-                                                      agent 更新进度日志
-    会话 2: agent 从头开始                           agent 干净地 commit
-            agent 没有上次
-            的记忆                            会话 2: agent 读进度日志
-            agent 重新做一遍                           agent 从上次停下的地方继续
-            或者做了完全不同的东西                      agent 继续未完成的功能
-            你再修一次                                 你是审查，不是救火
+    会话 1：代理写代码                     会话 1：代理读取指令
+             代理破坏了测试                          代理运行 init.sh
+             代理说"完成了"                          代理只做一个功能
+             你手动修复                              代理在声明完成前先验证
+                                                     代理更新进度日志
+    会话 2：代理从零开始                            代理提交干净的状态
+             代理不记得之前
+             发生了什么                       会话 2：代理读取进度日志
+             代理重做已完成的工作                       代理准确从上次离开处继续
+             或者做完全不同的事情                       代理继续未完成的功能
+             你再次修复                                你是审查者，不是救援者
 
-    结果：你花的时间比                      结果：agent 干活，
+    结果：你花的时间比                       结果：代理完成工作，
           自己做还多                                你验证结果
 ```
 
-课程真正关心的问题：
+这门课程真正关心的问题：
 
-- 哪些 harness 设计会提升任务完成率？
-- 哪些设计会减少返工和错误完成？
-- 哪些机制能让长时任务更稳定地持续推进？
-- 哪些结构能让系统在多轮 agent 运行后仍然可维护？
-
----
-
-## 课程大纲与文档
-
-关于完整的课程内容，请直接访问 **[官方文档站点 (VitePress)](https://walkinglabs.github.io/learn-harness-engineering/zh/)**。
-
-本课程分为三个主要部分：
-
-1. **讲义 (Lectures)**：12 个概念单元，深度解析 Harness 设计的理论基础。
-2. **项目 (Projects)**：6 个循序渐进的实战项目，带你从零开始搭建可靠的 Agent 工作环境。
-3. **资料库 (Resource Library)**：开箱即用的中英文模板（如 `AGENTS.md`、`feature_list.json`、`init.sh`），今天就可以直接复制到你自己的项目中使用。
+- 哪些 Harness 设计能提高任务完成率？
+- 哪些设计能减少返工和错误完成？
+- 哪些机制能让长时间运行的任务稳步推进？
+- 哪些结构能让系统在多次代理运行后仍然可维护？
 
 ---
 
-## 快速开始：今天就能改善你的 agent
+## 课程内容与文档
 
-不用读完 12 个讲义再动手。如果你已经在用 coding agent 做项目，下面这些能立刻改善效果。
+完整的课程材料，请访问**[文档网站](https://walkinglabs.github.io/learn-harness-engineering/)**。
 
-思路很简单：不是光写提示词，而是在仓库里放一组结构化的文件——告诉 agent 该做什么、做完了什么、怎么验证。这些文件就放在项目里，每次会话都从同一个状态开始。
+课程分为三个部分：
+
+1. **讲座**：12 个概念单元，讲解 Harness Engineering 背后的理论。
+2. **项目**：6 个动手项目，你将从零构建一个代理工作空间。
+3. **资源库**：可直接使用的模板（`AGENTS.md`、`feature_list.json`、`init.sh` 等），今天就能用在你自己的仓库中。
+
+---
+
+## 快速开始：今天就改善你的代理
+
+你不需要先读完所有 12 个讲座才能开始获得价值。如果你已经在真实项目中使用编程代理，以下是如何立刻改善它。
+
+思路很简单：与其只写提示词，不如给你的代理一组结构化文件，定义做什么、已做了什么、以及如何验证工作。这些文件存在于你的仓库中，所以每次会话都从相同的状态开始。
 
 ```text
     你的项目根目录
-    ├── AGENTS.md              <-- agent 的操作手册
-    ├── CLAUDE.md              <-- （备选，如果你用 Claude Code）
-    ├── init.sh                <-- 一条命令完成安装 + 验证 + 启动
-    ├── feature_list.json      <-- 有哪些功能、哪些已完成
-    ├── claude-progress.md     <-- 每次会话做了什么
-    └── src/                   <-- 你的代码
+    ├── AGENTS.md              <-- 代理的操作手册
+    ├── CLAUDE.md              <-- （替代方案，如果你使用 Claude Code）
+    ├── init.sh                <-- 运行安装 + 验证 + 启动
+    ├── feature_list.json      <-- 哪些功能存在，哪些已完成
+    ├── claude-progress.md     <-- 每次会话发生了什么
+    └── src/                   <-- 你的实际代码
 ```
 
-**第一步.** 直接前往 [资料库](https://walkinglabs.github.io/learn-harness-engineering/zh/resources/) 拿到上述文件的模板代码，然后放进你的项目根目录。
-
-就这么简单。四个文件，最小起步就够了。你的 Agent 表现会比光靠一段提示词稳定得多。
+从[资源库](https://walkinglabs.github.io/learn-harness-engineering/en/resources/)获取入门模板，放入你的项目。就这样。四个文件，你的代理会话就会比仅靠提示词稳定得多。
 
 ---
 
-## 贯穿项目：一个真实的应用
+## 毕业项目：一个真实的应用
 
-全部 6 个课程项目都围绕同一个产品：**一个基于 Electron 的个人知识库桌面应用**。
+全部六个课程项目围绕同一个产品展开：**一个基于 Electron 的个人知识库桌面应用**。
 
 ```text
     ┌─────────────────────────────────────────────────────┐
-    │                知识库桌面应用                         │
+    │               知识库桌面应用                         │
     │                                                     │
     │  ┌──────────────┐  ┌──────────────────────────────┐│
-    │  │  文档列表     │  │        问答面板              ││
+    │  │  文档列表     │  │       问答面板               ││
     │  │              │  │                              ││
-    │  │ doc-001.md   │  │  问：什么是 harness eng？    ││
-    │  │ doc-002.md   │  │  答：围绕 agent 模型搭建的   ││
-    │  │ doc-003.md   │  │      工作环境...             ││
-    │  │ ...          │  │      [引用：doc-002.md]      ││
+    │  │ doc-001.md   │  │  问：什么是 Harness Eng？    ││
+    │  │ doc-002.md   │  │  答：围绕代理模型构建的       ││
+    │  │ doc-003.md   │  │     环境...                  ││
+    │  │ ...          │  │     [引用: doc-002.md]       ││
     │  └──────────────┘  └──────────────────────────────┘│
     │                                                     │
     │  ┌─────────────────────────────────────────────────┐│
-    │  │ 状态栏：42 篇文档 | 38 篇已索引 | 上次同步 3分钟 ││
+    │  │ 状态栏：42 篇文档 | 38 篇已索引 | 上次同步 3 分钟前 ││
     │  └─────────────────────────────────────────────────┘│
     └─────────────────────────────────────────────────────┘
 
     核心功能：
     ├── 导入本地文档
     ├── 管理文档库
-    ├── 处理与索引文档
-    ├── 对导入内容发起 AI 问答
-    └── 返回带引用且可追溯的回答
+    ├── 处理和索引文档
+    ├── 基于导入内容运行 AI 驱动的问答
+    └── 返回带引用的有据答案
 ```
 
-选择这个项目是因为它同时具备：很强的实际价值感、足够真实的产品复杂度、以及很适合观察 harness 优化前后的效果差异。
+选择这个项目是因为它兼具实用价值、足够的真实产品复杂度，以及一个适合观察 Harness 改进前后对比的良好场景。
 
-每个课程项目的 starter/solution 是这个 Electron 应用在对应演化阶段的完整副本。P(N+1) 的 starter 从 P(N) 的 solution 衍生而来——应用跟着你的 harness 技能一起进化。
+每个课程项目的 starter/solution 都是此 Electron 应用在相应进化阶段的完整副本。P(N+1) 的 starter 派生自 P(N) 的 solution——随着你的 Harness 技能增长，应用也在进化。
 
 ---
 
 ## 学习路径
 
-这门课按顺序来效果最好，每一阶段都建立在前一个的基础上。
+课程按顺序设计。每个阶段建立在前一个之上。
 
 ```text
-    阶段 1：看到问题                         阶段 2：组织仓库
-    ===================                     ===================
+    阶段 1：看到问题                        阶段 2：结构化仓库
+    =======================                 ==========================
 
-    L01  模型强 ≠ 执行可靠                   L03  仓库作为唯一
-                                                     事实来源
-    L02  Harness 到底是什么
-                                           L04  把指令拆分到
-         |                                      不同文件里
-         v
-    P01  只写提示词                                |
-         vs 定好规则                                v
-                                                   P02  agent 可读的工作空间
-
-
-    阶段 3：连接会话                         阶段 4：反馈与范围
-    ===================                     ===================
-
-    L05  让跨会话任务                         L07  划清任务边界
-         保持连续
-                                           L08  功能清单作为
-    L06  每次开工前                               harness 原语
-         先初始化
-                                                 |
-         |                                       v
-         v                                       P04  运行反馈修正
-    P03  多会话连续性                                  agent 行为
+    L01  强模型 ≠ 可靠执行                   L03  仓库作为唯一的
+                                                真实来源
+    L02  Harness 到底意味着什么
+                                       L04  将指令分散到多个文件，
+                                                而不是一个巨大文件
+         |
+         v                                       |
+    P01  仅提示词 vs.                               v
+         规则优先对比
+                                               P02  代理可读的工作空间
 
 
-    阶段 5：验证                             阶段 6：全部串起来
-    ===================                     ===================
+    阶段 3：连接会话                        阶段 4：反馈与范围
+    ==========================              =========================
 
-    L09  防止 agent 提前                     L11  让 agent 运行
-         宣告完成                                   过程可观测
+    L05  让上下文跨会话保持活跃              L07  划清任务边界
 
-    L10  跑通完整流程                        L12  每次会话结束
-         才算真的验证                               前做好交接
-
+    L06  每次代理会话前初始化                L08  功能列表作为 Harness
+                                                基本单元
          |                                       |
          v                                       v
-    P05  agent 自己验证工作                    P06  搭建完整 harness
-                                                   （综合项目）
+    P03  多会话连续性                          P04  运行时反馈
+                                                  纠正代理行为
+
+
+    阶段 5：验证                            阶段 6：整合一切
+    =====================                    ============================
+
+    L09  阻止代理过早                        L11  让代理的运行时
+         宣布完成                                 可观测
+
+    L10  完整流水线运行 =                     L12  每次会话结束时
+         真正的验证                               干净交接
+         |                                       |
+         v                                       v
+    P05  代理验证自己的工作                   P06  构建完整的 Harness
+                                                （毕业项目）
 ```
 
-每个阶段大约一周（兼职节奏）。想快的话，前三个阶段一个周末就能跑完。
+如果你是业余时间学习，每个阶段大约需要一周。如果你想加快速度，阶段 1-3 可以在一个长周末完成。
 
 ---
 
 ## 课程大纲
 
-### 讲义 — 12 个概念单元，每个只回答一个核心问题
+### 讲座——12 个概念单元，每个回答一个核心问题
 
-*点击访问 [文档站点](https://walkinglabs.github.io/learn-harness-engineering/zh/) 阅读全部讲义。*
+*在[文档网站](https://walkinglabs.github.io/learn-harness-engineering/)上阅读每讲完整文本。*
 
-| 讲义 | 核心问题 | 关键概念 |
-| ---- | -------- | -------- |
-| [L01](./docs/zh/lectures/lecture-01-why-capable-agents-still-fail/index.md) | 模型能力强，不等于执行可靠 | 基准测试与真实工程之间的能力鸿沟 |
-| [L02](./docs/zh/lectures/lecture-02-what-a-harness-actually-is/index.md) | Harness 到底是什么 | 五个子系统：指令、状态、验证、范围、生命周期 |
-| [L03](./docs/zh/lectures/lecture-03-why-the-repository-must-become-the-system-of-record/index.md) | 让仓库成为唯一事实来源 | agent 看不到的东西，对它来说就不存在 |
-| [L04](./docs/zh/lectures/lecture-04-why-one-giant-instruction-file-fails/index.md) | 为什么一个巨大的指令文件会失败 | 渐进式展开：给地图，不给百科全书 |
-| [L05](./docs/zh/lectures/lecture-05-why-long-running-tasks-lose-continuity/index.md) | 为什么长时任务会丢失上下文 | 把进度持久化到磁盘，从停下的地方继续 |
-| [L06](./docs/zh/lectures/lecture-06-why-initialization-needs-its-own-phase/index.md) | 为什么初始化需要单独一个阶段 | agent 开始工作前先验证环境是否健康 |
-| [L07](./docs/zh/lectures/lecture-07-why-agents-overreach-and-under-finish/index.md) | 为什么 agent 会多做或少做 | 一次一个功能，显式的完成定义 |
-| [L08](./docs/zh/lectures/lecture-08-why-feature-lists-are-harness-primitives/index.md) | 为什么功能清单是 harness 原语 | 机器可读的范围边界，agent 无法忽略 |
-| [L09](./docs/zh/lectures/lecture-09-why-agents-declare-victory-too-early/index.md) | 为什么 agent 会提前宣告完成 | 验证缺口：自信 ≠ 正确 |
-| [L10](./docs/zh/lectures/lecture-10-why-end-to-end-testing-changes-results/index.md) | 为什么端到端测试会改变结果 | 只有跑通完整流程才算真正验证 |
-| [L11](./docs/zh/lectures/lecture-11-why-observability-belongs-inside-the-harness/index.md) | 为什么可观测性属于 harness | 看不到 agent 做了什么，就修不了它搞坏的东西 |
-| [L12](./docs/zh/lectures/lecture-12-why-every-session-must-leave-a-clean-state/index.md) | 为什么每次会话都要留干净状态 | 下次会话的成功，取决于这次会话的清理 |
+| 讲次 | 问题 | 核心观点 |
+|------|------|----------|
+| [L01](../../docs/lectures/lecture-01-why-capable-agents-still-fail/index.md) | 为什么强模型在真实任务上仍然会失败？ | 基准测试与真实工程之间的能力差距 |
+| [L02](../../docs/lectures/lecture-02-what-a-harness-actually-is/index.md) | "Harness" 到底是什么意思？ | 五个子系统：指令、状态、验证、范围、生命周期 |
+| [L03](../../docs/lectures/lecture-03-why-the-repository-must-become-the-system-of-record/index.md) | 为什么仓库必须是唯一的真实来源？ | 如果代理看不到它，它就不存在 |
+| [L04](../../docs/lectures/lecture-04-why-one-giant-instruction-file-fails/index.md) | 为什么一个巨大的指令文件会失败？ | 渐进式披露：给一张地图，不是一本百科全书 |
+| [L05](../../docs/lectures/lecture-05-why-long-running-tasks-lose-continuity/index.md) | 为什么长时间运行的任务会失去连续性？ | 将进度持久化到磁盘；从上次离开处继续 |
+| [L06](../../docs/lectures/lecture-06-why-initialization-needs-its-own-phase/index.md) | 为什么初始化需要单独的阶段？ | 在代理开始工作前验证环境是否健康 |
+| [L07](../../docs/lectures/lecture-07-why-agents-overreach-and-under-finish/index.md) | 为什么代理会越界和欠完成？ | 一次一个功能；明确的完成定义 |
+| [L08](../../docs/lectures/lecture-08-why-feature-lists-are-harness-primitives/index.md) | 为什么功能列表是 Harness 基本单元？ | 代理无法忽视的机器可读范围边界 |
+| [L09](../../docs/lectures/lecture-09-why-agents-declare-victory-too-early/index.md) | 为什么代理过早宣布完成？ | 验证缺口：信心 ≠ 正确 |
+| [L10](../../docs/lectures/lecture-10-why-end-to-end-testing-changes-results/index.md) | 为什么端到端测试能改变结果？ | 只有完整的流水线运行才算真正的验证 |
+| [L11](../../docs/lectures/lecture-11-why-observability-belongs-inside-the-harness/index.md) | 为什么可观测性应该属于 Harness？ | 如果你看不到代理做了什么，你就无法修复它破坏的东西 |
+| [L12](../../docs/lectures/lecture-12-why-every-session-must-leave-a-clean-state/index.md) | 为什么每次会话都必须留下干净的状态？ | 下一次会话的成功取决于这一次会话的清理 |
 
-### 项目 — 6 个实践项目，把讲义方法落实到同一个 Electron 应用上
+### 项目——6 个动手项目，将讲座方法应用到同一个 Electron 应用上
 
 | 项目 | 你要做什么 | Harness 机制 |
-| ---- | ---------- | ------------ |
-| [P01](./docs/zh/projects/project-01-baseline-vs-minimal-harness/index.md) | 跑两次同样的任务：只写提示词 vs 定好规则 | 最小 harness：AGENTS.md + init.sh + feature_list.json |
-| [P02](./docs/zh/projects/project-02-agent-readable-workspace/index.md) | 重组项目结构，让 agent 能读懂 | agent 可读的工作空间 + 持久化状态文件 |
-| [P03](./docs/zh/projects/project-03-multi-session-continuity/index.md) | 让 agent 关掉再打开还能接着干 | 进度日志 + 会话交接 + 多会话连续性 |
-| [P04](./docs/zh/projects/project-04-incremental-indexing/index.md) | 防止 agent 做多了或做少了 | 运行反馈 + 范围控制 + 增量索引 |
-| [P05](./docs/zh/projects/project-05-grounded-qa-verification/index.md) | 让 agent 自己验证自己的工作 | 自验证 + 带引用的问答 + 基于证据的完成判定 |
-| [P06](./docs/zh/projects/project-06-runtime-observability-and-debugging/index.md) | 从零搭建一套完整的 harness（综合项目） | 完整 harness：全部机制 + 可观测性 + 消融实验 |
+|------|-----------|--------------|
+| [P01](../../docs/projects/project-01-baseline-vs-minimal-harness/index.md) | 同一个任务运行两次：仅提示词 vs. 规则优先 | 最小 Harness：AGENTS.md + init.sh + feature_list.json |
+| [P02](../../docs/projects/project-02-agent-readable-workspace/index.md) | 重构仓库使代理可读 | 代理可读工作空间 + 持久化状态文件 |
+| [P03](../../docs/projects/project-03-multi-session-continuity/index.md) | 让代理从上次离开处继续 | 进度日志 + 会话交接 + 多会话连续性 |
+| [P04](../../docs/projects/project-04-incremental-indexing/index.md) | 阻止代理做得太多或太少 | 运行时反馈 + 范围控制 + 增量索引 |
+| [P05](../../docs/projects/project-05-grounded-qa-verification/index.md) | 让代理验证自己的工作 | 自验证 + 有据问答 + 基于证据的完成 |
+| [P06](../../docs/projects/project-06-runtime-observability-and-debugging/index.md) | 从零构建完整的 Harness（毕业项目） | 完整 Harness：所有机制 + 可观测性 + 消融实验 |
 
 ```text
     项目演进
-    ========
+    =================
 
-    P01  只写提示词 vs 定好规则            你看到问题
+    P01  仅提示词 vs. 规则优先              你看到问题
      |
      v
-    P02  agent 可读的工作空间               你重组仓库
+    P02  代理可读工作空间                    你重构仓库
      |
      v
-    P03  多会话连续性                       你连接会话
+    P03  多会话连续性                        你连接会话
      |
      v
-    P04  运行反馈与范围控制                  你加上反馈循环
+    P04  运行时反馈与范围                    你添加反馈循环
      |
      v
-    P05  自验证                             你让 agent 检查自己
+    P05  自验证                              你让代理检查自己
      |
      v
-    P06  完整 harness（综合项目）            你搭建完整系统
+    P06  完整 Harness（毕业项目）             你构建完整系统
 
     每个项目的 solution 成为下一个项目的 starter。
-    应用跟着你的 harness 技能一起进化。
+    应用在演进。你的 Harness 技能随之增长。
 ```
 
-### 资料库
+### 资源库
 
-- [中文资料库](https://walkinglabs.github.io/learn-harness-engineering/zh/resources/) — 中文模板、清单和方法参考
-- [英文资料库](https://walkinglabs.github.io/learn-harness-engineering/en/resources/) — English templates, checklists, and method references
+- [English](https://walkinglabs.github.io/learn-harness-engineering/en/resources/) — templates, checklists, and method references
+- [简体中文](https://walkinglabs.github.io/learn-harness-engineering/zh/resources/) — 中文模板、清单和方法参考
 - [繁體中文](https://walkinglabs.github.io/learn-harness-engineering/zh-TW/resources/) — 繁體中文範本、清單和方法參考
 - [日本語](https://walkinglabs.github.io/learn-harness-engineering/ja/resources/) — テンプレート、チェックリスト、方法リファレンス
 - [한국어](https://walkinglabs.github.io/learn-harness-engineering/ko/resources/) — 템플릿, 체크리스트, 방법 참고 자료
@@ -383,87 +378,87 @@ Harness engineering 是围绕模型搭建一整套工作环境，让它产出可
 
 ---
 
-## Agent 会话生命周期
+## 代理会话生命周期
 
-这门课的一个核心理念：**agent 的会话应该遵循结构化的生命周期，而不是自由发挥。** 它长这样：
+这门课程的核心观点之一：**代理的会话应该遵循结构化的生命周期，而不是放任自流。** 如下所示：
 
 ```text
-    AGENT 会话生命周期
-    =================
+    代理会话生命周期
+    ======================
 
     ┌──────────────────────────────────────────────────────────────────┐
-    │  开工                                                           │
+    │  启动                                                           │
     │                                                                  │
-    │  1. agent 读取 AGENTS.md / CLAUDE.md                            │
-    │  2. agent 运行 init.sh（安装、验证、健康检查）                   │
-    │  3. agent 读取 claude-progress.md（上次做了什么）               │
-    │  4. agent 读取 feature_list.json（做完哪些、接下来做哪个）      │
-    │  5. agent 检查 git log（最近的改动）                             │
+    │  1. 代理读取 AGENTS.md / CLAUDE.md                              │
+    │  2. 代理运行 init.sh（安装、验证、健康检查）                     │
+    │  3. 代理读取 claude-progress.md（上次发生了什么）                │
+    │  4. 代理读取 feature_list.json（哪些完成，哪些待做）             │
+    │  5. 代理检查 git log（最近的变更）                               │
     │                                                                  │
     │  选择                                                            │
     │                                                                  │
-    │  6. agent 选定且只选一个未完成的功能                              │
-    │  7. agent 只做这一个功能                                         │
+    │  6. 代理精确选择一个未完成的功能                                 │
+    │  7. 代理只做那个功能                                             │
     │                                                                  │
     │  执行                                                            │
     │                                                                  │
-    │  8. agent 实现这个功能                                           │
-    │  9. agent 运行验证（测试、lint、类型检查）                       │
-    │  10. 如果验证失败：修复后重跑                                    │
+    │  8. 代理实现功能                                                 │
+    │  9. 代理运行验证（测试、lint、类型检查）                         │
+    │  10. 如果验证失败：修复并重新运行                                │
     │  11. 如果验证通过：记录证据                                      │
     │                                                                  │
     │  收尾                                                            │
     │                                                                  │
-    │  12. agent 更新 claude-progress.md                               │
-    │  13. agent 更新 feature_list.json                                │
-    │  14. agent 记录还没做完和还没验证的东西                          │
-    │  15. agent commit（只在可以安全恢复时）                           │
-    │  16. agent 给下次会话留干净的重启路径                            │
+    │  12. 代理更新 claude-progress.md                                 │
+    │  13. 代理更新 feature_list.json                                  │
+    │  14. 代理记录仍然有问题或未验证的内容                           │
+    │  15. 代理提交（仅在安全可恢复时）                                │
+    │  16. 代理为下一次会话留下干净的重启路径                          │
     │                                                                  │
     └──────────────────────────────────────────────────────────────────┘
 
-    Harness 管控这个生命周期里的每一次状态转换。
+    Harness 管控这个生命周期中的每一次转换。
     模型决定每一步写什么代码。
-    没有 harness 时，第 9 步变成"agent 说看起来没问题"。
-    有 harness 时，第 9 步是"测试通过、lint 干净、类型检查通过"。
+    没有 Harness，第 9 步变成"代理说看起来没问题"。
+    有了 Harness，第 9 步是"测试通过，lint 干净，类型检查通过"。
 ```
 
 ---
 
 ## 适合谁
 
-这门课适合：
+本课程适合：
 
-- 已经在使用 coding agent、希望提升稳定性和质量的工程师
-- 想系统理解 harness 设计的研究者或构建者
-- 需要理解"环境设计如何影响 agent 表现"的技术负责人
+- 已经在使用编程代理、希望获得更好稳定性和质量的工程师
+- 希望系统理解 Harness 设计的研究者或构建者
+- 需要了解环境设计如何影响代理性能的技术负责人
 
-这门课不适合：
+本课程不适合：
 
-- 只想要一个零代码 AI 入门的人
-- 只关心 prompt，而不打算做真实实现的人
-- 不准备让 agent 在真实仓库里工作的学习者
+- 寻找零代码 AI 入门的人
+- 只关心提示词、不打算构建实际实现的人
+- 不准备让代理在真实仓库中工作的学习者
 
 ---
 
 ## 环境要求
 
-这是一门真正需要动手跑 coding agent 的课程。
+这是一门你需要实际运行编程代理的课程。
 
-你至少需要具备一个这类工具：
+你至少需要以下工具之一：
 
 - Claude Code
 - Codex
-- 其他支持文件编辑、命令执行、多步任务的 IDE / CLI coding agent
+- 其他支持文件编辑、命令执行和多步骤任务的 IDE 或 CLI 编程代理
 
-课程默认你可以：
+本课程假设你能够：
 
 - 打开本地仓库
-- 允许 agent 编辑文件
-- 允许 agent 运行命令
-- 检查输出并重复执行任务
+- 允许代理编辑文件
+- 允许代理运行命令
+- 检查输出并重新运行任务
 
-如果你没有这类工具，仍然可以阅读课程内容，但无法按预期完成课程项目。
+如果你没有这样的工具，你仍然可以阅读课程内容，但无法按设计完成项目。
 
 ---
 
@@ -473,35 +468,35 @@ Harness engineering 是围绕模型搭建一整套工作环境，让它产出可
 
 ```sh
 npm install
-npm run docs:dev        # 开发服务器（热更新）
+npm run docs:dev        # 带热重载的开发服务器
 npm run docs:build      # 生产构建
-npm run docs:preview    # 预览构建结果
+npm run docs:preview    # 预览构建后的站点
 ```
 
-然后在浏览器里打开 VitePress 输出的本地地址即可。
+然后在浏览器中打开 VitePress 输出的本地 URL。
 
 ---
 
-## 先修要求
+## 先决条件
 
 必需：
 
 - 熟悉终端、git 和本地开发环境
-- 至少会读写一种常见应用栈中的代码
-- 有基本的软件调试经验，知道如何看日志、测试和运行行为
-- 能投入足够时间完成偏实现型的课程任务
+- 能够使用至少一种常见应用技术栈读写代码
+- 基本的软件调试经验（阅读日志、测试和运行时行为）
+- 足够的时间投入到以实现为核心的课程中
 
-有帮助但非强制：
+有帮助但非必需：
 
-- 用过 Electron、桌面应用或本地优先工具
-- 有测试、日志、软件架构方面的经验
-- 已经接触过 Codex、Claude Code 或类似 coding agent
+- 有 Electron、桌面应用或本地优先工具的经验
+- 有测试、日志或软件架构方面的背景
+- 之前接触过 Codex、Claude Code 或类似的编程代理
 
 ---
 
-## 核心参考资料
+## 核心参考
 
-主参考：
+主要参考：
 
 - [OpenAI: Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/)
 - [Anthropic: Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
@@ -512,7 +507,7 @@ npm run docs:preview    # 预览构建结果
 - [Thoughtworks / Martin Fowler: Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html)
 - [Cursor: Continually improving our agent harness](https://cursor.com/blog/continually-improving-agent-harness)
 
-完整分层参考列表见 [`docs/zh/resources/reference/`](./docs/zh/resources/reference/index.md)。
+完整分层参考列表请见 [`docs/en/resources/reference/`](../../docs/en/resources/reference/index.md)。
 
 ---
 
@@ -520,56 +515,59 @@ npm run docs:preview    # 预览构建结果
 
 ```text
 learn-harness-engineering/
-├── docs/                          # VitePress 文档站
-│   ├── index.md                   # 语言选择页
-│   ├── zh/                        # 中文完整内容
-│   │   ├── lectures/              # 12 个讲义（index.md + code/ 示例）
-│   │   ├── projects/              # 6 个项目
-│   │   └── resources/             # 模板、参考、高级资源包
-│   └── en/                        # 英文完整内容
-│       ├── lectures/              # 12 lectures
-│       ├── projects/              # 6 projects
-│       └── resources/             # templates, references, advanced pack
+├── docs/                          # VitePress 文档站点
+│   ├── lectures/                  # 12 个讲座（index.md + code/ 示例）
+│   │   ├── lecture-01-*/
+│   │   ├── lecture-02-*/
+│   │   └── ... （共 12 个）
+│   ├── projects/                  # 6 个项目描述
+│   │   ├── project-01-*/
+│   │   └── ... （共 6 个）
+│   └── resources/                 # 多语言模板和参考
+│       ├── en/                    # 英文模板、检查清单、指南
+│       ├── zh/                    # 中文模板、检查清单、指南
+│       ├── ru/                    # 俄文模板、检查清单、指南
+│       └── vi/                    # 越南文模板、检查清单、指南
 ├── projects/
-│   ├── shared/                    # Electron + TypeScript + React 共享基础
-│   └── project-NN/               # 每个项目的 starter/ 和 solution/
-├── skills/                        # 可复用的 AI agent 技能
-│   └── harness-creator/           # Harness 工程技能
+│   ├── shared/                    # 共享的 Electron + TypeScript + React 基础
+│   └── project-NN/               # 每个项目的 starter/ 和 solution/ 目录
+├── skills/                        # 可复用的 AI 代理技能
+│   └── harness-creator/           # Harness Engineering 技能
 ├── package.json                   # VitePress + 开发工具
-└── CLAUDE.md                      # Claude Code 指令文件
+└── CLAUDE.md                      # 本仓库的 Claude Code 指令
 ```
 
 ---
 
 ## 课程组织方式
 
-- 每个讲义聚焦一个问题
-- 整门课配套 6 个项目
-- 每个项目都要求 agent 真正干活
-- 每个项目都要做弱 harness / 强 harness 对照
-- 我们关心的是效果变化，而不是"写了多少说明文档"
+- 每个讲座聚焦一个问题
+- 课程包含 6 个项目
+- 每个项目都要求代理做真实的工作
+- 每个项目都比较弱 Harness 和强 Harness 的结果
+- 重要的是可测量的差异，不是写了多少文档
 
 ---
 
-## Skills
+## 技能
 
-本仓库还包含可复用的 AI Agent 技能（Skills），你可以将它们直接安装到你的 IDE 或 Agent 工作区中。
+本仓库还包含可复用的 AI 代理技能，你可以直接安装到你的 IDE 或代理工作空间中。
 
-- [**harness-creator**](./skills/harness-creator/)：帮助你在几分钟内为自己的项目搭建一套生产级 harness（脚手架）的技能。
+- [**harness-creator**](../../skills/harness-creator/)：一个帮助你在几分钟内为自己的项目搭建生产级别 Harness 的技能。
 
 ---
 
 ## 其他课程
 
-我们的团队还制作了其他课程！请查看：
+我们的团队还创建了其他课程！欢迎查看：
 
 [![Hands-on Modern RL](https://img.shields.io/badge/HANDS--ON_MODERN_RL-0052cc?style=for-the-badge)](https://github.com/walkinglabs/hands-on-modern-rl)
 
-**Hands-on Modern RL**: An open-source, hands-on curriculum bridging the gap from basic RL concepts to LLM alignment, RLVR, and advanced Agentic systems.
+**Hands-on Modern RL**：一个开源的动手课程，从基础强化学习概念到 LLM 对齐、RLVR 和高级 Agentic 系统，架起理论与实践的桥梁。
 
 ---
 
-## Star History
+## Star 历史
 
 [![Star History Chart](https://api.star-history.com/svg?repos=walkinglabs/learn-harness-engineering&type=date&legend=top-left)](https://www.star-history.com/#walkinglabs/learn-harness-engineering&type=date&legend=top-left)
 
@@ -577,4 +575,4 @@ learn-harness-engineering/
 
 ## 致谢
 
-本课程的灵感和部分思路来自 [learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) —— 一个从零开始搭建 agent 的渐进式教程，从单个循环到隔离的自主执行。
+本课程受到 [learn-claude-code](https://github.com/shareAI-lab/learn-claude-code) 的启发并借鉴了其中的理念——那是一份从单循环到隔离自主执行的渐进式代理构建指南。
