@@ -59,7 +59,7 @@ flowchart TB
 - **范围表面（Scope Surface）**：一个 DAG 结构，每个节点是一个工作单元，边是依赖关系。状态只有四种：未开始、进行中、阻塞、已通过。
 - **完成压力（Completion Pressure）**：harness 通过 WIP 限制和完成证据要求共同产生的约束力，迫使 agent 先完成当前任务再开始新任务。
 
-## Overreach 和 Under-finish 是一对难兄难弟
+## 过度延伸如何导致不足完成
 
 这两个问题互相加剧。overreach 导致注意力分散，注意力分散导致 under-finish，under-finish 留下的半成品代码又增加了系统复杂度，进一步导致下一个任务的 overreach，形成恶性循环。
 
@@ -67,7 +67,7 @@ flowchart TB
 
 这在人类世界也是老问题了。Steve McConnell 在《Rapid Development》中记录，范围蔓延是项目失败的首要原因。但人类至少有"我已经做得够多了"的直觉，agent 完全没有。生成下一个想法的成本对模型来说太低了，写一行"顺便把这个也改了"几乎不消耗额外 token，但每个额外的修改都会稀释 agent 的注意力。
 
-## 怎么做才对
+## 实施方法
 
 ### 1. 强制 WIP=1
 
