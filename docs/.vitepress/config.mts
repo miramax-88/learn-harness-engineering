@@ -532,7 +532,7 @@ const arSourceItems = { lectures: arLectureItems, projects: arProjectItems, reso
 const zhTWSourceItems = { lectures: zhTWLectureItems, projects: zhTWProjectItems, resources: zhTWResourceItems, skills: zhTWSkillItems };
 const trSourceItems = { lectures: trLectureItems, projects: trProjectItems, resources: trResourceItems, skills: trSkillItems };
 
-const relinkItems = (items: Array<{ text: string; link: string }>, locale: string ) =>
+const relinkItems = (items: Array<{ text: string; link: string }>, locale: string) =>
   items.map((item) => ({
     ...item,
     link: item.link.replace(
@@ -584,7 +584,7 @@ const createLocaleTheme = (
       [`/${locale}/projects/`]: [{ text: labels.projects, items: projects }],
       [`/${locale}/resources/`]: [{ text: labels.resourceLibrary, items: resources }],
       [`/${locale}/skills/`]: [{ text: labels.skills, items: skills }],
-      [`/${locale}/`]: [{ text: labels.lectures, items: lectures }],
+      [`/${locale}/`]: [{ text: labels.lectures, items: lectures }]
     },
     outline: {
       level: [2, 3],
@@ -629,7 +629,7 @@ export default withMermaid(
     cleanUrls: true,
     srcExclude: ["temp/**"],
     ignoreDeadLinks: true,
-    head: [['link', { rel: 'icon', type: 'image/svg+xml', href: brandLogo }]],
+    head: [['link', { rel: 'icon', type: 'image/svg+xml', href: brandLogo }]]
     themeConfig: {
       logo: brandLogo,
       search: {
@@ -640,23 +640,23 @@ export default withMermaid(
     markdown: {
       theme: {
         light: 'github-light',
-        dark: 'github-dark',
+        dark: 'github-dark'
       },
     },
     mermaid: {
       theme: "base",
       themeVariables: {
-        primaryColor: "#F4F3EE",
-        primaryBorderColor: "#D1D1D1",
-        primaryTextColor: "#1A1A1A",
-        lineColor: "#B3B3B3",
-        fontFamily: "Inter, sans-serif",
-        fontSize: "18px",
+        primaryColor: '#F4F3EE',
+        primaryBorderColor: '#D1D1D1',
+        primaryTextColor: '#1A1A1A',
+        lineColor: '#B3B3B3',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '18px'
       },
       flowchart: {
         nodeSpacing: 40,
         rankSpacing: 56,
-        padding: 12,
+        padding: 12
       },
     },
     locales: {
@@ -666,42 +666,19 @@ export default withMermaid(
         link: "/en/",
         themeConfig: {
           nav: [
-            {
-              text: "Lectures",
-              link: enLectureItems[1].link,
-              activeMatch: "^/en/(lectures/.*)?$",
-            },
-            {
-              text: "Projects",
-              link: enProjectItems[0].link,
-              activeMatch: "^/en/projects/",
-            },
-            {
-              text: "Library",
-              link: "/en/resources/",
-              activeMatch: "^/en/resources/",
-            },
-            {
-              text: "Skills",
-              link: "/en/skills/",
-              activeMatch: "^/en/skills/",
-            },
-            {
-              text: "Try Harness ↗",
-              link: "https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/en/resources/templates/index.md",
-              target: "_blank",
-              rel: "noopener noreferrer",
-            },
+            { text: "Lectures", link: enLectureItems[1].link, activeMatch: '^/en/(lectures/.*)?$' },
+            { text: "Projects", link: enProjectItems[0].link, activeMatch: '^/en/projects/' },
+            { text: "Library", link: "/en/resources/", activeMatch: '^/en/resources/' },
+            { text: "Skills", link: "/en/skills/", activeMatch: '^/en/skills/' },
+            { text: "Try Harness ↗", link: "https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/en/resources/templates/index.md", target: "_blank", rel: "noopener noreferrer" }
           ],
           sidebar: {
-            "/en/projects/": [{ text: "Projects", items: enProjectItems }],
-            "/en/resources/": [
-              { text: "Resource Library", items: enResourceItems },
-            ],
-            "/en/skills/": [{ text: "Skills", items: enSkillItems }],
-            "/en/": [{ text: "Lectures", items: enLectureItems }],
+            '/en/projects/': [{ text: "Projects", items: enProjectItems }],
+            '/en/resources/': [{ text: "Resource Library", items: enResourceItems }],
+            '/en/skills/': [{ text: "Skills", items: enSkillItems }],
+            '/en/': [{ text: "Lectures", items: enLectureItems }]
           },
-          socialLinks: [{ icon: "github", link: githubRepoTreeLink }],
+          socialLinks: [{ icon: "github", link: githubRepoTreeLink }]
         },
       },
       zh: {
