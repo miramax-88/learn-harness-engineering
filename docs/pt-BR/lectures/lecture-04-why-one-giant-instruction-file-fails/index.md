@@ -1,6 +1,6 @@
 [中文版 →](../../../zh/lectures/lecture-04-why-one-giant-instruction-file-fails/)
 
-> Exemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/en/lectures/lecture-04-why-one-giant-instruction-file-fails/code/)
+> Exemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/pt-BR/lectures/lecture-04-why-one-giant-instruction-file-fails/code/)
 > Projeto prático: [Projeto 02. Workspace legível para agentes](./../../projects/project-02-agent-readable-workspace/index.md)
 
 # Aula 04. Divida as Instruções em Múltiplos Arquivos

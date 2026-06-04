@@ -1,6 +1,6 @@
 [中文版 →](../../../zh/lectures/lecture-11-why-observability-belongs-inside-the-harness/)
 
-> Exemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/en/lectures/lecture-11-why-observability-belongs-inside-the-harness/code/)
+> Exemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/pt-BR/lectures/lecture-11-why-observability-belongs-inside-the-harness/code/)
 > Projeto prático: [Projeto 06. Construa um Harness Completo para Agentes](./../../projects/project-06-runtime-observability-and-debugging/index.md)
 
 # Aula 11. Tornando o Runtime do Agente Observável

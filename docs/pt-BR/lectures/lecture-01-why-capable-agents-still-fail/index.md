@@ -1,6 +1,6 @@
 [中文版 →](../../../zh/lectures/lecture-01-why-capable-agents-still-fail/)
 
-> Exemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/en/lectures/lecture-01-why-capable-agents-still-fail/code/)
+> Exemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/pt-BR/lectures/lecture-01-why-capable-agents-still-fail/code/)
 > Projeto prático: [Projeto 01. Apenas Prompt vs. Regras Primeiro: Quanta Diferença um Harness Faz](./../../projects/project-01-baseline-vs-minimal-harness/index.md)
 
 # Aula 01. Modelos Fortes Não Significam Execução Confiável

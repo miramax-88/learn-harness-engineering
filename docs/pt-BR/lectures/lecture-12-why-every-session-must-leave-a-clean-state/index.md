@@ -1,6 +1,6 @@
 [中文版 →](../../../zh/lectures/lecture-12-why-every-session-must-leave-a-clean-state/)
 
-> Exemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/en/lectures/lecture-12-why-every-session-must-leave-a-clean-state/code/)
+> Exemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/pt-BR/lectures/lecture-12-why-every-session-must-leave-a-clean-state/code/)
 > Projeto prático: [Projeto 06. Construir um Workspace Completo para Agentes](./../../projects/project-06-runtime-observability-and-debugging/index.md)
 
 # Aula 12. Deixe uma Transferência Limpa ao Final de Cada Sessão

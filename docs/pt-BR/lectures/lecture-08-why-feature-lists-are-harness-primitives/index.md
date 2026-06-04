@@ -1,6 +1,6 @@
 [中文版 →](../../../zh/lectures/lecture-08-why-feature-lists-are-harness-primitives/)
 
-> Exemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/en/lectures/lecture-08-why-feature-lists-are-harness-primitives/code/)
+> Exemplos de código: [code/](https://github.com/walkinglabs/learn-harness-engineering/blob/main/docs/pt-BR/lectures/lecture-08-why-feature-lists-are-harness-primitives/code/)
 > Projeto prático: [Projeto 04. Feedback em tempo de execução e controle de escopo](./../../projects/project-04-incremental-indexing/index.md)
 
 # Aula 08. Use Listas de Funcionalidades para Restringir o que o Agente Faz
