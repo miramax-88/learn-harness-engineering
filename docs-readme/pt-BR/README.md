@@ -26,7 +26,7 @@
   <img src="https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square" alt="Licença MIT">
 </p>
 
-> **Ícone do Globo** Este curso está disponível em **14 idiomas**: Inglês, 简体中文, 繁體中文, 日本語, 한국어, Español, Français, Русский, Deutsch, العربية, Tiếng Việt, Oʻzbekcha, Português (BR). Escolha seu idioma nos selos acima.
+> **Ícone do Globo** Este curso está disponível em **14 idiomas**: Inglês, 简体中文, 繁體中文, 日本語, 한국어, Español, Français, Русский, Deutsch, العربية, Tiếng Việt, Oʻzbekcha, Türkçe, Português (BR). Escolha seu idioma nos selos acima.
 
 Aprenda Engenharia de Harness é um curso dedicado à engenharia de agentes de codificação de IA. Estudamos e sintetizamos profundamente as mais avançadas teorias e práticas de Engenharia de Harness na indústria. Nossas principais referências incluem:
 

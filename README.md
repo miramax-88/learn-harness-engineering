@@ -26,7 +26,7 @@
   <img src="https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square" alt="MIT License">
 </p>
 
-> **Globe icon** This course is available in **13 languages**: English, 简体中文, 繁體中文, 日本語, 한국어, Español, Français, Русский, Deutsch, العربية, Tiếng Việt, Oʻzbekcha, Türkçe, Portuguese (BR). Choose your language from the badges above.
+> **Globe icon** This course is available in **14 languages**: English, 简体中文, 繁體中文, 日本語, 한국어, Español, Français, Русский, Deutsch, العربية, Tiếng Việt, Oʻzbekcha, Türkçe, Portuguese (BR). Choose your language from the badges above.
 
 Learn Harness Engineering is a course dedicated to the engineering of AI coding agents. We have deeply studied and synthesized the most advanced Harness Engineering theories and practices in the industry. Our core references include:
 
@@ -389,6 +389,7 @@ Each phase takes about a week if you're going part-time. If you want to go faste
 - [Tiếng Việt](https://walkinglabs.github.io/learn-harness-engineering/vi/resources/) — mẫu, danh sách kiểm tra và tài liệu tham khảo
 - [Oʻzbekcha](https://walkinglabs.github.io/learn-harness-engineering/uz/resources/) — andozalar, tekshiruv roʻyxatlari va maʼlumotnomalar
 - [Türkçe](https://walkinglabs.github.io/learn-harness-engineering/tr/resources/) — şablonlar, kontrol listeleri ve referanslar
+- [Português (BR)](https://walkinglabs.github.io/learn-harness-engineering/pt-BR/resources/) — modelos, listas de verificação e referências de métodos
 
 ---
 
@@ -536,9 +537,9 @@ learn-harness-engineering/
 │   ├── projects/                  # 6 project descriptions
 │   │   ├── project-01-*/
 │   │   └── ... (6 total)
-│   └── resources/                 # Multilingual templates & references (13 languages)
+│   └── resources/                 # Multilingual templates & references (14 languages)
 │       ├── en/
-│       └── ... (13 total)
+│       └── ... (14 total)
 ├── projects/
 │   ├── shared/                    # Shared Electron + TypeScript + React foundation
 │   └── project-NN/                # Per-project starter/ and solution/ directories
