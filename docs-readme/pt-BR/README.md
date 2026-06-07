@@ -248,7 +248,7 @@ Primárias:
 - [Thoughtworks / Martin Fowler: Harness engineering para usuários de agentes de programação](https://martinfowler.com/articles/harness-engineering.html)
 - [Cursor: Melhorando continuamente nosso harness de agentes](https://cursor.com/blog/continually-improving-agent-harness)
 
-Veja a lista completa de referências em camadas em [`docs/pt-BR/resources/reference/`](./docs/pt-BR/resources/reference/index.md).
+Veja a lista completa de referências em camadas em [`docs/pt-BR/resources/reference/`](../../docs/pt-BR/resources/reference/index.md).
 
 ---
 
