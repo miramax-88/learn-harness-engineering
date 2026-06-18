@@ -546,6 +546,8 @@ learn-harness-engineering/
 │   └── project-NN/                # Per-project starter/ and solution/ directories
 ├── skills/                        # Reusable AI agent skills
 │   └── harness-creator/           # Harness engineering skill
+├── tools/                         # Zero-dependency shell utilities
+│   └── audit-harness.sh           # Shell-based harness audit (L03–L12, no Node.js needed)
 ├── package.json                   # VitePress + dev tooling
 └── CLAUDE.md                      # Claude Code instructions for this repo
 ```
@@ -567,6 +569,20 @@ learn-harness-engineering/
 This repository also includes reusable AI agent skills that you can install directly into your IDE or agent workspace.
 
 - [**harness-creator**](./skills/harness-creator/): A skill that helps you scaffold a production-grade harness for your own project in minutes.
+
+## Tools
+
+Zero-dependency utilities you can run without installing Node.js.
+
+- [**audit-harness.sh**](./tools/audit-harness.sh): A shell-based audit script that checks an existing repo against all five harness subsystems (L03–L12). Exits 0 when all CRITICAL items pass. No Node.js required — complements `harness-creator`'s `validate-harness.mjs`.
+
+```bash
+# Run directly on any repo
+curl -fsSL https://raw.githubusercontent.com/walkinglabs/learn-harness-engineering/main/tools/audit-harness.sh | bash -s -- /path/to/your/repo
+
+# Or after cloning
+bash tools/audit-harness.sh /path/to/your/repo
+```
 
 ---
 
