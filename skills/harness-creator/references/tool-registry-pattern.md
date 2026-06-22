@@ -161,8 +161,7 @@ protected_commands:
 
 ## Related Patterns
 
-- [Lifecycle & Bootstrap](lifecycle-bootstrap-pattern.md) — How tools are registered at init
-- Hook Lifecycle (`hook-lifecycle-pattern.md`) — Pre/post tool execution hooks
+- [Lifecycle & Bootstrap](lifecycle-bootstrap-pattern.md) — How tools are registered at init, and pre/post-tool hook dispatch
 
 ## Template: Tool Safety Checklist
 

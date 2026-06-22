@@ -1,9 +1,13 @@
 ---
 name: harness-creator
 description: >-
-  Build, audit, and improve lightweight harnesses for AI coding agents: AGENTS.md/CLAUDE.md,
-  feature state, verification workflows, scope boundaries, lifecycle handoff,
-  memory persistence, context control, tool safety, and multi-agent coordination.
+  Build, audit, and improve harnesses that make AI coding agents reliable: AGENTS.md/CLAUDE.md
+  instruction files, feature/state tracking, verification gates, scope boundaries, session
+  handoff, memory persistence, context budgets, tool-permission safety, and multi-agent
+  coordination. Use this whenever a coding agent is unreliable across sessions — forgets context,
+  drifts out of scope, claims "done" before tests pass, or starts each session inconsistently —
+  or when creating or assessing AGENTS.md, CLAUDE.md, feature_list.json, init.sh, progress.md, or
+  session-handoff files. Reach for it even if the user never says the word "harness."
 license: MIT
 ---
 

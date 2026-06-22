@@ -272,7 +272,10 @@ export function scoreHarness(files) {
 
   const total = Object.values(subsystems).reduce((sum, item) => sum + item.score, 0);
   const overall = Math.round((total / (SUBSYSTEMS.length * 5)) * 100);
-  const bottleneck = Object.entries(subsystems).sort((a, b) => a[1].score - b[1].score)[0][0];
+  const ranked = Object.entries(subsystems).sort((a, b) => a[1].score - b[1].score);
+  // A bottleneck only means something when a subsystem is weaker than the rest.
+  // When every subsystem already maxes out, reporting one is misleading.
+  const bottleneck = ranked[0][1].score === 5 ? null : ranked[0][0];
   return { overall, bottleneck, subsystems };
 }
 
@@ -324,7 +327,7 @@ export function formatScoreReport(result, root = '.') {
   const lines = [
     `Harness validation for ${root}`,
     `Overall: ${result.overall}/100`,
-    `Bottleneck: ${result.bottleneck}`,
+    `Bottleneck: ${result.bottleneck ?? 'none — all subsystems at full score'}`,
     ''
   ];
 
@@ -378,7 +381,7 @@ export function htmlReport(result, title = 'Harness Assessment') {
       <p>Five-subsystem harness validation report.</p>
       <div class="summary">
         <div class="metric">Overall<strong>${result.overall}/100</strong></div>
-        <div class="metric">Bottleneck<strong>${escapeHtml(result.bottleneck)}</strong></div>
+        <div class="metric">Bottleneck<strong>${escapeHtml(result.bottleneck ?? 'none')}</strong></div>
       </div>
     </header>
     ${rows}
