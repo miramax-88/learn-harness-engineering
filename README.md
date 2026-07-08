@@ -30,6 +30,21 @@
 
 > 🌍 This course is available in **15 languages**: English, 简体中文, 繁體中文, 日本語, 한국어, Español, Français, Русский, Deutsch, العربية, Tiếng Việt, Oʻzbekcha, Türkçe, Portuguese (BR), Українська. Choose your language from the badges above.
 
+## 🆕 What's New — July 2026
+
+**Loop Engineering Update — 1 new lecture, 1 new project**
+
+| What | Details |
+|------|---------|
+| **Lecture 13** | [Why You Need to Stop Prompting Your Agent](docs/en/lectures/lecture-13-loop-engineering/index.md) — From `/goal` to the six primitives of loop engineering (automations, worktrees, skills, connectors, sub-agents, external state), the generator/evaluator split, four silent costs, and a step-by-step guide to building your first loop. |
+| **Project 07** | [Build Your First Automated Loop](docs/en/projects/project-07-loop-engineering-first-loop/index.md) — Three progressive experiments: goal loop, timer loop, and maker-checker loop. Compare manual vs. automated, measure intervention reduction, and learn to step outside the loop. |
+| **Code templates** | `goal-template.md`, `loop-state-template.md`, `maker-prompt.md`, `checker-prompt.md` — drop-in templates for building loops immediately. |
+| **All 15 languages** | Full translation coverage across all supported languages. |
+
+**Key idea:** Harness engineering builds the vehicle. Loop engineering designs the road it drives on — and you design the road from outside the car.
+
+---
+
 Learn Harness Engineering is a course dedicated to the engineering of AI coding agents. We have deeply studied and synthesized the most advanced Harness Engineering theories and practices in the industry. Our core references include:
 
 - [OpenAI: Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/)
@@ -43,6 +58,7 @@ Learn Harness Engineering is a course dedicated to the engineering of AI coding 
 
 ## Table of Contents
 
+- [🆕 What's New](#-whats-new--july-2026)
 - [✨ Visual Preview](#-visual-preview)
 - [What Harness Engineering Actually Means](#what-harness-engineering-actually-means)
 - [Quick Start: Improve Your Agent Today](#quick-start-improve-your-agent-today)
@@ -600,23 +616,6 @@ curl -fsSL https://raw.githubusercontent.com/walkinglabs/learn-harness-engineeri
 # Or after cloning
 bash tools/audit-harness.sh /path/to/your/repo
 ```
-
----
-
-## Changelog
-
-### 2026-07-09 — Loop Engineering Update
-
-Added **Lecture 13** and **Project 07** on **Loop Engineering** — the next layer beyond harness engineering.
-
-**New content:**
-
-- **Lecture 13: Why You Need to Stop Prompting Your Agent** — From `/goal` to the six primitives of loop engineering (automations, worktrees, skills, connectors, sub-agents, external state), the generator/evaluator split, four silent costs, and a step-by-step guide to building your first loop.
-- **Project 07: Build Your First Automated Loop** — Three progressive experiments: goal loop, timer loop, and maker-checker loop. Compare manual vs. automated, measure intervention reduction, and learn to step outside the loop.
-- **Code templates** — `goal-template.md`, `loop-state-template.md`, `maker-prompt.md`, `checker-prompt.md` for building loops immediately.
-- **Reference update** — Added Addy Osmani's [Loop Engineering](https://addyosmani.com/blog/loop-engineering/) (2026-06-07) to the 2026 extended reference list.
-
-**Key idea:** Harness engineering builds the vehicle. Loop engineering designs the road it drives on — and you design the road from outside the car.
 
 ---
 
