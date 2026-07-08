@@ -9,18 +9,22 @@ import { PersistenceService } from '../services/persistence-service';
 let mainWindow: BrowserWindow | null = null;
 
 function createWindow() {
+  const preloadPath = path.join(__dirname, '..', 'preload', 'preload.js');
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     minWidth: 800,
     minHeight: 600,
     webPreferences: {
-      preload: path.join(__dirname, '..', 'preload', 'preload.js'),
+      preload: preloadPath,
       contextIsolation: true,
       nodeIntegration: false,
+      sandbox: true,
     },
     title: 'Knowledge Base',
   });
+
+  console.log('[main] Preload path:', preloadPath);
 
   // In development, load from Vite dev server or built renderer
   const isDev = !app.isPackaged;

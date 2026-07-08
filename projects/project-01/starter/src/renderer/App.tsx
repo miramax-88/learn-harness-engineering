@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { DocumentList } from './components/DocumentList';
 import { QuestionPanel } from './components/QuestionPanel';
 import { DocumentDetail } from './components/DocumentDetail';
 import { StatusBar } from './components/StatusBar';
-import { Document, AppStatus, QAResponse } from '../../shared/types';
+import { Document, AppStatus, QAResponse, Chunk } from '@shared/types';
 
 declare global {
   interface Window {
@@ -17,7 +17,7 @@ declare global {
       indexing: {
         start: (documentId?: string) => Promise<{ status: string }>;
         status: () => Promise<AppStatus>;
-        chunks: (documentId: string) => Promise<Array<{ id: string; content: string; index: number }>>;
+        chunks: (documentId: string) => Promise<Chunk[]>;
       };
       qa: {
         ask: (question: string) => Promise<QAResponse>;
@@ -157,7 +157,7 @@ export function App() {
                 {lastResponse.citations.length > 0 && (
                   <div style={{ marginTop: '10px', fontSize: '12px', color: '#8888bb' }}>
                     <strong>Citations:</strong>
-                    {lastResponse.citations.map((c, i) => (
+                    {lastResponse.citations.map((c: QAResponse['citations'][number], i: number) => (
                       <div key={i} style={{ marginTop: '4px', paddingLeft: '8px', borderLeft: '2px solid #533483' }}>
                         {c.documentTitle} (chunk {c.chunkIndex}): {c.excerpt.substring(0, 100)}...
                       </div>

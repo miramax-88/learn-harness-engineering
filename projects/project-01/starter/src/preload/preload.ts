@@ -1,5 +1,17 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import { IPC_CHANNELS } from '../shared/types';
+
+// Inline IPC channels to avoid module resolution issues in sandbox
+const IPC_CHANNELS = {
+  LIST_DOCUMENTS: 'documents:list',
+  IMPORT_DOCUMENT: 'documents:import',
+  GET_DOCUMENT: 'documents:get',
+  DELETE_DOCUMENT: 'documents:delete',
+  START_INDEXING: 'indexing:start',
+  GET_INDEXING_STATUS: 'indexing:status',
+  GET_CHUNKS: 'indexing:chunks',
+  ASK_QUESTION: 'qa:ask',
+  GET_HISTORY: 'qa:history',
+} as const;
 
 const api = {
   documents: {

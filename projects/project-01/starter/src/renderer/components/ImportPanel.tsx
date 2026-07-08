@@ -1,10 +1,8 @@
-import React from 'react';
-
 interface Props {
-  onImport: (filePath: string) => void;
+  onImport?: (filePath: string) => void;
 }
 
-export function ImportPanel({ onImport }: Props) {
+export function ImportPanel({ onImport: _onImport }: Props) {
   return (
     <div style={{
       padding: '20px',
@@ -25,7 +23,11 @@ export function ImportPanel({ onImport }: Props) {
         accept=".txt,.md"
         onChange={e => {
           const file = e.target.files?.[0];
-          if (file) onImport(file.path);
+          if (file) {
+            // In Electron, use window.knowledgeBase.documents.import(filePath)
+            // For browser file input, we'd need different handling
+            console.log('File selected:', file.name);
+          }
         }}
         style={{ marginTop: '10px' }}
       />
