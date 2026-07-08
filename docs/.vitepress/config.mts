@@ -24,7 +24,8 @@ const zhLectureItems = [
   { text: "防止 agent 提前宣告完成", link: "/zh/lectures/lecture-09-why-agents-declare-victory-too-early/" },
   { text: "跑通完整流程才算真正验证", link: "/zh/lectures/lecture-10-why-end-to-end-testing-changes-results/" },
   { text: "让 agent 的运行过程可观测", link: "/zh/lectures/lecture-11-why-observability-belongs-inside-the-harness/" },
-  { text: "每次会话结束前都做好交接", link: "/zh/lectures/lecture-12-why-every-session-must-leave-a-clean-state/" }
+  { text: "每次会话结束前都做好交接", link: "/zh/lectures/lecture-12-why-every-session-must-leave-a-clean-state/" },
+  { text: "从手动驱动到自动循环", link: "/zh/lectures/lecture-13-loop-engineering/" }
 ];
 
 const zhProjectItems = [
@@ -34,7 +35,8 @@ const zhProjectItems = [
   { text: "跨会话工作连续性", link: "/zh/projects/project-03-multi-session-continuity/" },
   { text: "运行反馈与行为修正", link: "/zh/projects/project-04-incremental-indexing/" },
   { text: "工作评审与自我验证", link: "/zh/projects/project-05-grounded-qa-verification/" },
-  { text: "综合 Agent 工作环境", link: "/zh/projects/project-06-runtime-observability-and-debugging/" }
+  { text: "综合 Agent 工作环境", link: "/zh/projects/project-06-runtime-observability-and-debugging/" },
+  { text: "第一个自动循环", link: "/zh/projects/project-07-loop-engineering-first-loop/" }
 ];
 
 const zhResourceItems = [
@@ -61,7 +63,8 @@ const enLectureItems = [
   { text: "Why Agents Declare Victory Too Early", link: "/en/lectures/lecture-09-why-agents-declare-victory-too-early/" },
   { text: "Why End-to-End Testing Changes Results", link: "/en/lectures/lecture-10-why-end-to-end-testing-changes-results/" },
   { text: "Why Observability Belongs Inside the Harness", link: "/en/lectures/lecture-11-why-observability-belongs-inside-the-harness/" },
-  { text: "Why Every Session Must Leave a Clean State", link: "/en/lectures/lecture-12-why-every-session-must-leave-a-clean-state/" }
+  { text: "Why Every Session Must Leave a Clean State", link: "/en/lectures/lecture-12-why-every-session-must-leave-a-clean-state/" },
+  { text: "From Manual Prompting to Autonomous Loops", link: "/en/lectures/lecture-13-loop-engineering/" }
 ];
 
 const enProjectItems = [
@@ -71,7 +74,8 @@ const enProjectItems = [
   { text: "Multi-Session Continuity", link: "/en/projects/project-03-multi-session-continuity/" },
   { text: "Runtime Feedback and Scope Control", link: "/en/projects/project-04-incremental-indexing/" },
   { text: "Self-Verification and Role Separation", link: "/en/projects/project-05-grounded-qa-verification/" },
-  { text: "Complete Harness (Capstone)", link: "/en/projects/project-06-runtime-observability-and-debugging/" }
+  { text: "Complete Harness (Capstone)", link: "/en/projects/project-06-runtime-observability-and-debugging/" },
+  { text: "Your First Automated Loop", link: "/en/projects/project-07-loop-engineering-first-loop/" }
 ];
 
 const enResourceItems = [

@@ -21,8 +21,8 @@
 <p align="center"><strong>A project-based course on building the environment, state management, verification, and control mechanisms that make AI coding agents work reliably.</strong></p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Lectures-12-blue?style=flat-square" alt="12 Lectures">
-  <img src="https://img.shields.io/badge/Projects-6-green?style=flat-square" alt="6 Projects">
+  <img src="https://img.shields.io/badge/Lectures-13-blue?style=flat-square" alt="13 Lectures">
+  <img src="https://img.shields.io/badge/Projects-7-green?style=flat-square" alt="7 Projects">
   <img src="https://img.shields.io/badge/Languages-15-yellow?style=flat-square" alt="15 Languages">
   <img src="https://img.shields.io/badge/License-MIT-lightgrey?style=flat-square" alt="MIT License">
   <a href="https://discord.gg/XU7DQmpqk"><img src="https://img.shields.io/badge/Discord-Join_Community-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Join the Discord community"></a>
@@ -205,15 +205,15 @@ For the full course materials, please visit the **[Documentation Website](https:
 
 The curriculum is divided into three parts:
 
-1. **Lectures**: 12 conceptual units explaining the theory behind harness engineering.
-2. **Projects**: 6 hands-on projects where you build an agentic workspace from scratch.
+1. **Lectures**: 13 conceptual units explaining the theory behind harness engineering.
+2. **Projects**: 7 hands-on projects where you build an agentic workspace from scratch.
 3. **Resource Library**: Copy-ready templates (`AGENTS.md`, `feature_list.json`, `init.sh`, etc.) to use in your own repositories today.
 
 ---
 
 ## Quick Start: Improve Your Agent Today
 
-You don't need to read all 12 lectures before you start getting value. If you're already using a coding agent on a real project, here's how to improve it right now.
+You don't need to read all 13 lectures before you start getting value. If you're already using a coding agent on a real project, here's how to improve it right now.
 
 The idea is simple: instead of just writing prompts, give your agent a set of structured files that define what to do, what's been done, and how to verify the work. These files live inside your repo, so every session starts from the same state.
 
@@ -313,6 +313,17 @@ The course is designed to be done in order. Each phase builds on the last.
          v                                     v
     P05  Agent verifies its own work      P06  Build a complete harness
                                                (capstone project)
+
+    Phase 7: AUTOMATE THE LOOP
+    ==========================
+
+    L13  Stop prompting your agent —
+         design loops instead
+
+         |
+         v
+    P07  Build your first automated loop
+         (goal loop, timer loop, maker-checker)
 ```
 
 Each phase takes about a week if you're going part-time. If you want to go faster, phases 1–3 can be done in a long weekend.
@@ -321,7 +332,7 @@ Each phase takes about a week if you're going part-time. If you want to go faste
 
 ## Syllabus
 
-### Lectures — 12 conceptual units, each answering one core question
+### Lectures — 13 conceptual units, each answering one core question
 
 *Read the full text for each lecture on the [Documentation Website](https://walkinglabs.github.io/learn-harness-engineering/).*
 
@@ -339,8 +350,9 @@ Each phase takes about a week if you're going part-time. If you want to go faste
 | [L10](./docs/en/lectures/lecture-10-why-end-to-end-testing-changes-results/index.md) | Why does end-to-end testing change results? | Only a full-pipeline run counts as real verification |
 | [L11](./docs/en/lectures/lecture-11-why-observability-belongs-inside-the-harness/index.md) | Why does observability belong inside the harness? | If you can't see what the agent did, you can't fix what it broke |
 | [L12](./docs/en/lectures/lecture-12-why-every-session-must-leave-a-clean-state/index.md) | Why must every session leave a clean state? | The next session's success depends on this session's cleanup |
+| [L13](./docs/en/lectures/lecture-13-loop-engineering/index.md) | Why do you need to stop prompting your agent? | From manual driving to automated loops — goal loops, timer loops, and maker-checker separation |
 
-### Projects — 6 hands-on projects applying lecture methods to the same Electron app
+### Projects — 7 hands-on projects applying lecture methods to the same Electron app
 
 | Project | What You Do | Harness Mechanism |
 |---------|------------|-------------------|
@@ -350,6 +362,7 @@ Each phase takes about a week if you're going part-time. If you want to go faste
 | [P04](./docs/en/projects/project-04-incremental-indexing/index.md) | Stop the agent from doing too much or too little | Runtime feedback + scope control + incremental indexing |
 | [P05](./docs/en/projects/project-05-grounded-qa-verification/index.md) | Make the agent verify its own work | Self-verification + grounded Q&A + evidence-based completion |
 | [P06](./docs/en/projects/project-06-runtime-observability-and-debugging/index.md) | Build a complete harness from scratch (capstone) | Full harness: all mechanisms + observability + ablation study |
+| [P07](./docs/en/projects/project-07-loop-engineering-first-loop/index.md) | Build your first automated loop | Goal loops, timer loops, maker-checker separation, loop state management |
 
 ```text
     PROJECT EVOLUTION
@@ -371,6 +384,9 @@ Each phase takes about a week if you're going part-time. If you want to go faste
      |
      v
     P06  Complete harness (capstone)       You build the full system
+     |
+     v
+    P07  Your first automated loop        You step outside the loop
 
     Each project's solution becomes the next project's starter.
     The app evolves. Your harness skills grow with it.
@@ -533,12 +549,12 @@ See the full layered reference list in [`docs/en/resources/reference/`](./docs/e
 ```text
 learn-harness-engineering/
 ├── docs/                          # VitePress documentation site
-│   ├── lectures/                  # 12 lectures (index.md + code/ examples)
+│   ├── lectures/                  # 13 lectures (index.md + code/ examples)
 │   │   ├── lecture-01-*/
-│   │   └── ... (12 total)
-│   ├── projects/                  # 6 project descriptions
+│   │   └── ... (13 total)
+│   ├── projects/                  # 7 project descriptions
 │   │   ├── project-01-*/
-│   │   └── ... (6 total)
+│   │   └── ... (7 total)
 │   └── resources/                 # Multilingual templates & references (14 languages)
 │       ├── en/
 │       └── ... (14 total)
@@ -558,7 +574,7 @@ learn-harness-engineering/
 ## How the Course Is Organized
 
 - Each lecture focuses on one question
-- The course includes 6 projects
+- The course includes 7 projects
 - Every project requires the agent to do real work
 - Every project compares weak vs. strong harness results
 - What matters is the measured difference, not how many docs were written
@@ -584,6 +600,23 @@ curl -fsSL https://raw.githubusercontent.com/walkinglabs/learn-harness-engineeri
 # Or after cloning
 bash tools/audit-harness.sh /path/to/your/repo
 ```
+
+---
+
+## Changelog
+
+### 2026-07-09 — Loop Engineering Update
+
+Added **Lecture 13** and **Project 07** on **Loop Engineering** — the next layer beyond harness engineering.
+
+**New content:**
+
+- **Lecture 13: Why You Need to Stop Prompting Your Agent** — From `/goal` to the six primitives of loop engineering (automations, worktrees, skills, connectors, sub-agents, external state), the generator/evaluator split, four silent costs, and a step-by-step guide to building your first loop.
+- **Project 07: Build Your First Automated Loop** — Three progressive experiments: goal loop, timer loop, and maker-checker loop. Compare manual vs. automated, measure intervention reduction, and learn to step outside the loop.
+- **Code templates** — `goal-template.md`, `loop-state-template.md`, `maker-prompt.md`, `checker-prompt.md` for building loops immediately.
+- **Reference update** — Added Addy Osmani's [Loop Engineering](https://addyosmani.com/blog/loop-engineering/) (2026-06-07) to the 2026 extended reference list.
+
+**Key idea:** Harness engineering builds the vehicle. Loop engineering designs the road it drives on — and you design the road from outside the car.
 
 ---
 
